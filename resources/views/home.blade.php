@@ -1,23 +1,58 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
+  <div class="row">
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
-                </div>
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-sm-6 mb-3">
+      <div class="card border-left-secondary py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                <a href="{{route('clientes')}}" class="font-weight-bold text-secondary">Clientes</a>
+              </div>
             </div>
+            <div class="col-auto">
+              <i class="fas fa-user-friends fa-2x text-gray-300"></i>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+
+    <div class="col-xl-3 col-sm-6 mb-3">
+      <div class="card border-left-primary py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                <a href="#" >Servicios</a>
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-mail-bulk fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-sm-6 mb-3">
+      <div class="card border-left-warning py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="h5 mb-0 font-weight-bold text-yellow-800">
+                <a href="#" class="font-weight-bold text-warning">Pagos</a>
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection
