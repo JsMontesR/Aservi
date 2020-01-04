@@ -3,9 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Servicio;
+use DB;
 
 class ServiciosController extends Controller
 {
+    public $validationRules = [
+            'nombre' => 'required',
+            'periodicidad' => 'required',
+        ];
+
+    public $validationIdRule = ['id' => 'required|integer|min:0'];
+
+
     /**
      * Display a listing of the resource.
      *
@@ -13,17 +23,13 @@ class ServiciosController extends Controller
      */
     public function index()
     {
-        //
-    }
+       $servicios = DB::table('servicios')->select(
+        DB::raw('id as Id'),
+        DB::raw('nombre as Nombre'),
+        DB::raw('periodicidad as Periodicidad'))
+       ->get();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('servicios',compact('servicios'));
     }
 
     /**
@@ -33,52 +39,48 @@ class ServiciosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-    }
+    {   
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        $request->validate($this->validationRules);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $servicio = new Servicio;
+        $servicio->nombre = $request->nombre;
+        $servicio->periodicidad = $request->periodicidad;
+        $servicio->save();
+
+        return redirect()->route('servicios')->with('success', 'Servicio registrado');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $request->validate($this->validationIdRule);
+        $request->validate($this->validationRules);
+        
+        $servicio = Servicio::findOrFail($request->id);
+        $servicio->nombre = $request->nombre;
+        $servicio->periodicidad = $request->periodicidad;
+        $servicio->save();
+
+        return back()->with('success', 'Servicio actualizado');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $request->validate($this->validationIdRule);
+        
+        Servicio::findOrFail($request->id)->delete();
+        return redirect()->route('servicios')->with('success', 'Servicio eliminado');
     }
 }

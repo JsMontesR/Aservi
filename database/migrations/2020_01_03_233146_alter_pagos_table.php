@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateServiciosTable extends Migration
+class AlterPagosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateServiciosTable extends Migration
      */
     public function up()
     {
-        Schema::create('servicios', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('nombre');
-            $table->string('periodicidad');
-            $table->timestamps();
+        Schema::table('pagos', function (Blueprint $table) {
+            $table->unsignedBigInteger('afiliacion_id');
+            $table->foreign('afiliacion_id')->references('id')->on('afiliaciones')->onDelete('restrict');
         });
     }
 
@@ -28,6 +26,7 @@ class CreateServiciosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('servicios');
+        $table->dropForeign(['afiliacion_id']);
+        $table->dropColumn('afiliacion_id'); 
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePagosTable extends Migration
+class CreateAfiliacionesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreatePagosTable extends Migration
      */
     public function up()
     {
-        Schema::create('pagos', function (Blueprint $table) {
+        Schema::create('afiliaciones', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->date('fechaSiguientePago');
         });
     }
 
@@ -26,6 +27,6 @@ class CreatePagosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pagos');
+        Schema::dropIfExists('afiliaciones');
     }
 }

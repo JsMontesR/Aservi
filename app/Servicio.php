@@ -3,15 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Pago;
+use App\Afiliacion;
 
 class Servicio extends Model
 {
     protected $table = 'servicios';
     protected $fillable = ['id','nombre','periodicidad'];
 
-    public function pagos(){
-    	return $this->belongsToMany(Pago::class,'pagos','id','servicio_id');
+    public function afiliaciones(){
+    	return $this->belongsToMany(Afiliacion::class,'afiliaciones','id','servicio_id');
     }
 
 }

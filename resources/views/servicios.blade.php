@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<h1 align="center">Clientes</h1>
+<h1 align="center">Servicios</h1>
 <br>
 
  @if(session()->has('success'))
@@ -13,7 +13,7 @@
     <div class="row justify-content-center">
         <div class="col-md">
             <div class="card" >
-                <div class="card-header" style="font-size:20px" align="center">Detalle Cliente</div>
+                <div class="card-header" style="font-size:20px" align="center">Detalle Servicios</div>
 
                 <div class="card-body">
 
@@ -34,11 +34,11 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-left">Nombre:</label>
+                            <label class="col-md-4 col-form-label text-md-left">Nombre del servicio:</label>
 
                             <div class="col-md-8">
-                                <input id="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}" name="name" required autocomplete="name">
-                                @error('name')
+                                <input id="nombre" class="form-control @error('nombre') is-invalid @enderror" value="{{old('nombre')}}" name="nombre" required autocomplete="nombre">
+                                @error('nombre')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -47,65 +47,25 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-left">Cédula</label>
+                            <label class="col-md-4 col-form-label text-md-left">Periodicidad:</label>
 
                             <div class="col-md-8">
-                                <input  id="cedula" class="form-control @error('cedula') is-invalid @enderror" value="{{old('cedula')}}" name="cedula" required autocomplete>
-                                @error('cedula')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
+                                <select id="periodicidad" name="periodicidad" class="form-control" style="text-transform: capitalize" value="{{old('periodicidad')}}">
+                                 
+                                        <option value="Mensual" selected="">Mensual</option>
+                                        <option value="Trimestral">Trimestral</option>
+                                        <option value="Semestral">Semestral</option>
+                                        <option value="Anual">Anual</option>
+
+                                    <script type="text/javascript">
+                                        var value = {!!json_encode(old('periodicidad'))!!};
+                                        if(value != null){
+                                            document.getElementById("periodicidad").value = {!!json_encode(old('periodicidad'))!!}
+                                        }
+                                    </script>
+                                </select>
                             </div>
                         </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-left">Teléfono Celular:</label>
-
-                            <div class="col-md-8">
-                                <input id="telefonocelular" class="form-control @error('telefonocelular') is-invalid @enderror" value="{{old('telefonocelular')}}" name="telefonocelular" required autocomplete>
-                                @error('telefonocelular')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-left">Teléfono fijo:</label>
-
-                            <div class="col-md-8">
-                                <input id="telefonofijo" class="form-control @error('telefonofijo') is-invalid @enderror" value="{{old('telefonofijo')}}" name="telefonofijo" required autocomplete>
-                                @error('telefonofijo')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-left">Correo electrónico:</label>
-
-                            <div class="col-md-8">
-                                <input id="email" class="form-control @error('email') is-invalid @enderror" value="{{old('email')}}" name="email" required autocomplete="email">
-                                @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-left">Dirección:</label>
-
-                            <div class="col-md-8">
-                                <input  id="direccion" class="form-control " name="direccion" value="{{old('direccion')}}" required autocomplete>
-                            </div>
-                        </div>
-
                 </div>
 
                 </div>
@@ -130,21 +90,21 @@
                             
                                 function registrarUsuario(){
 
-                                    document.form1.action = '{{ route('clientes.store') }}';
+                                    document.form1.action = '{{ route('servicios.store') }}';
                                     document.form1.submit();
                                 }
 
                                 function modificarUsuario(){
 
-                                    document.form1.action = '{{ route('clientes.update') }}';
+                                    document.form1.action = '{{ route('servicios.update') }}';
                                     document.form1.submit();
                                 }
 
                                 function eliminarUsuario(){
-                                    var opcion = confirm("¿Está seguro que desea eliminar el cliente seleccionado?");
+                                    var opcion = confirm("¿Está seguro que desea eliminar el servicio seleccionado?");
                                     if(opcion){
                                         var valor = document.getElementById('id').value;
-                                        document.form1.action = '{{ route('clientes.delete') }}';    
+                                        document.form1.action = '{{ route('servicios.delete') }}';    
                                         document.form1.submit();
                                     }
                                     
@@ -152,12 +112,8 @@
 
                                 function limpiarCampos(){
                                             document.getElementById('id').value = "";
-                                            document.getElementById('name').value = "";
-                                            document.getElementById('email').value = "";
-                                            document.getElementById('cedula').value = "";
-                                            document.getElementById('telefonocelular').value = "";
-                                            document.getElementById('telefonofijo').value = "";
-                                            document.getElementById('direccion').value = "";
+                                            document.getElementById('nombre').value = "";
+                                            document.getElementById('periodicidad').value = "";
                                             document.getElementById('registrar').disabled = false;
                                         }
 
@@ -181,17 +137,17 @@
             <div class="row justify-content-center">
                 <div class="col-md">
                     <div class="card">
-                        <div class="card-header" style="font-size:20px" align="center">Clientes registrados</div>
+                        <div class="card-header" style="font-size:20px" align="center">Servicios registrados</div>
                             <div class="card mb-3">     
                               <div class="card-body">
                                 <div class="table-responsive">
-                                  @if(!$clientes->isEmpty())
+                                  @if(!$servicios->isEmpty())
                                   <table class="table table-bordered" data-name="my_table" width="100%" cellspacing="0">
                                     
                                             <thead>
                                               <tr>
                                                 <th>Seleccionar</th>
-                                                @foreach ($clientes->get(0) as $key => $value) 
+                                                @foreach ($servicios->get(0) as $key => $value) 
                                                    
                                                     <th>{{$key}}</th>
                                                     
@@ -200,7 +156,7 @@
                                               </tr>       
                                             </thead>
                                             <tbody>
-                                               @foreach($clientes as $registro)
+                                               @foreach($servicios as $registro)
                                                 <tr>
                                                     <td align="center">
                                                         <a id="{{$registro->Id}}" class="btn btn-secondary text-white" href="#page-top">
@@ -213,12 +169,8 @@
                                                         var cambiar = function(){
                                                             document.getElementById('registrar').disabled = true;
                                                             document.getElementById('id').value = {!!json_encode($registro->Id)!!};
-                                                            document.getElementById('name').value = {!!json_encode($registro->Nombre)!!};
-                                                            document.getElementById('cedula').value = {!!json_encode($registro->Cedula)!!};
-                                                            document.getElementById('email').value = {!!json_encode($registro->Email)!!};
-                                                            document.getElementById('telefonofijo').value = {!!json_encode($registro->{'Telefono Fijo'})!!};
-                                                            document.getElementById('telefonocelular').value = {!!json_encode($registro->{'Telefono Celular'})!!};
-                                                            document.getElementById('direccion').value = {!!json_encode($registro->Direccion)!!};
+                                                            document.getElementById('nombre').value = {!!json_encode($registro->Nombre)!!};
+                                                            document.getElementById('periodicidad').value = {!!json_encode($registro->Periodicidad)!!};
 
                                                         };
                                                         var input = document.getElementById({!!json_encode($registro->Id)!!});
@@ -238,7 +190,7 @@
                                             <tfoot>
                                               <tr>
                                                 <th>Seleccionar</th>
-                                                @foreach ($clientes[0] as $key => $value) 
+                                                @foreach ($servicios[0] as $key => $value) 
                                                     
                                                     <th>{{$key}}</th>
                                                     
@@ -249,7 +201,7 @@
                                     
                                   </table>
                                   @else
-                                      <h3 align="center">No hay clientes disponibles, intentelo más tarde</h3>
+                                      <h3 align="center">No hay servicios disponibles, intentelo más tarde</h3>
                                   @endif
                                   <script type="text/javascript" src="{{asset('js/spanishtable.js')}}"></script>
                                   <script type="text/javascript" src="{{asset('js/spanish.js')}}"></script>

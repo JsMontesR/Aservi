@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
+use App\Cliente;
 
 class ClientesController extends Controller
 {
@@ -10,7 +11,7 @@ class ClientesController extends Controller
             'name' => 'required',
             'email' => 'required_if:rol,administrador|nullable|email',
             'cedula' => 'nullable|integer|min:0',
-            'telefono' => 'nullable|integer|min:0',
+            'telefonocelular' => 'nullable|integer|min:0',
             'telefonofijo' => 'nullable|integer|min:0',
         ];
 
@@ -27,9 +28,9 @@ class ClientesController extends Controller
        $clientes = DB::table('clientes')->select(
         DB::raw('id as Id'),
         DB::raw('di as Cedula'),
-        DB::raw('email as "Email"'),
         DB::raw('nombre as Nombre'),
-        DB::raw('telefonocelular as Telefono'),
+        DB::raw('email as "Email"'),
+        DB::raw('telefonocelular as "Telefono Celular"'),
         DB::raw('telefonofijo as "Telefono Fijo"'),
         DB::raw('direccion as Direccion'))
        ->get();
@@ -48,33 +49,16 @@ class ClientesController extends Controller
 
         $request->validate($this->validationRules);
 
-        $usuario = new User;
-        $usuario->name = $request->name;
-        if($request->email != null && DB::table('users')->where('email', '=', $request->email)->exists()){
-            throw ValidationException::withMessages(['email' => 'El email ingresado ya existe',]);
-        }
-        $usuario->email = $request->email;
-        $usuario->cedula = $request->cedula;
-        $usuario->telefono = $request->telefono;
-        $usuario->direccion = $request->direccion;
-        $this->validarYGuardarNIT($request,$usuario);
-        if($request->password != null){
-            $usuario->password = Hash::make($request->password);
-        }
-        $usuario->rol = $request->rol;
-        $usuario->save();
+        $cliente = new Cliente;
+        $cliente->nombre = $request->name;
+        $cliente->email = $request->email;
+        $cliente->di = $request->cedula;
+        $cliente->telefonocelular = $request->telefonocelular;
+        $cliente->direccion = $request->direccion;
+        $cliente->telefonofijo = $request->telefonofijo;
+        $cliente->save();
 
-        return redirect()->route('usuarios')->with('success', 'Usuario registrado');
-    }
-
-    public function validarYGuardarNIT(Request $request, User $usuario){
-        $NITvalidator = Validator::make($request->all(), ['NIT' => 'nullable|regex:/(?<![\w\d])[0-9]+-[0-9]+(?![\w\d])/']);
-        
-        if ($NITvalidator->fails()) {
-            throw ValidationException::withMessages(['NIT' => 'El NIT ingresado es incorrecto',]);
-        }else{       
-            $usuario->NIT = $request->NIT;
-        }
+        return redirect()->route('clientes')->with('success', 'Cliente registrado');
     }
 
     /**
@@ -88,20 +72,16 @@ class ClientesController extends Controller
         $request->validate($this->validationIdRule);
         $request->validate($this->validationRules);
         
-        $usuario = User::findOrFail($request->id);
-        $usuario->name = $request->name;
-        $usuario->email = $request->email;
-        $usuario->cedula = $request->cedula;
-        $usuario->telefono = $request->telefono;
-        $usuario->direccion = $request->direccion;
-        $this->validarYGuardarNIT($request,$usuario);
-        if($request->password != null){
-            $usuario->password = Hash::make($request->password);
-        }
-        $usuario->rol = $request->rol;
-        $usuario->save();
+        $cliente = Cliente::findOrFail($request->id);
+        $cliente->nombre = $request->name;
+        $cliente->email = $request->email;
+        $cliente->di = $request->cedula;
+        $cliente->telefonocelular = $request->telefonocelular;
+        $cliente->direccion = $request->direccion;
+        $cliente->telefonofijo = $request->telefonofijo;
+        $cliente->save();
 
-        return back()->with('success', 'Usuario actualizado');
+        return back()->with('success', 'Cliente actualizado');
     }
 
     /**
@@ -114,7 +94,7 @@ class ClientesController extends Controller
     {
         $request->validate($this->validationIdRule);
         
-        User::findOrFail($request->id)->delete();
-        return redirect()->route('usuarios')->with('success', 'Usuario eliminado');
+        Cliente::findOrFail($request->id)->delete();
+        return redirect()->route('clientes')->with('success', 'Cliente eliminado');
     }
 }

@@ -53,7 +53,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{route('servicios')}}">
           <em class="fas fa-fw fa-mail-bulk"></em>
           <span>Servicios</span></a>
       </li>
@@ -63,11 +63,17 @@
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        Pagos
+        Afiliaciones y pagos
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
       <!-- Nav Item - Pages Collapse Menu -->
+
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <em class="fas fa-fw fa-file-contract"></em>
+          <span>Afiliaciones</span></a>
+      </li>
 
       <li class="nav-item">
         <a class="nav-link" href="#">
@@ -93,7 +99,7 @@
       <div id="content">
 
         <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+        <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
           <!-- Sidebar Toggle (Topbar) -->
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -138,7 +144,11 @@
 
           <div class="container-fluid">
 
+            <br>
+
             @yield('content')
+
+            <br>
 
           </div>
           <!-- /.container-fluid -->

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterPagosTable extends Migration
+class AlterAfiliacionesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AlterPagosTable extends Migration
      */
     public function up()
     {
-        Schema::table('pagos', function (Blueprint $table) {
+        Schema::table('afiliaciones', function (Blueprint $table) {
 
             $table->unsignedBigInteger('cliente_id');
             $table->unsignedBigInteger('servicio_id');
@@ -32,7 +32,7 @@ class AlterPagosTable extends Migration
      */
     public function down()
     {
-        Schema::table('pagos', function (Blueprint $table) {
+        Schema::table('afiliaciones', function (Blueprint $table) {
 
             $table->dropForeign(['cliente_id']);
             $table->dropColumn('cliente_id'); 

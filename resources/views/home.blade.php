@@ -27,11 +27,28 @@
           <div class="row no-gutters align-items-center">
             <div class="col mr-2">
               <div class="h5 mb-0 font-weight-bold text-gray-800">
-                <a href="#" >Servicios</a>
+                <a href="{{route('servicios')}}">Servicios</a>
               </div>
             </div>
             <div class="col-auto">
               <i class="fas fa-mail-bulk fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-sm-6 mb-3">
+      <div class="card border-left-success py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="h5 mb-0 font-weight-bold text-yellow-800">
+                <a href="#" class="font-weight-bold text-success">Afiliaciones</a>
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
             </div>
           </div>
         </div>
