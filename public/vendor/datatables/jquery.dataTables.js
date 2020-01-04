@@ -56,6 +56,7 @@
 		factory( jQuery, window, document );
 	}
 }
+
 (function( $, window, document, undefined ) {
 	"use strict";
 
@@ -9985,6 +9986,10 @@
 		 *    } );
 		 */
 		"aaSorting": [[0,'asc']],
+
+		// Call the dataTables jQuery plugin
+  		
+
 	
 	
 		/**
@@ -12053,6 +12058,7 @@
 		 *  @name DataTable.defaults.rowId
 		 */
 		"rowId": "DT_RowId"
+
 	};
 	
 	_fnHungarianMap( DataTable.defaults );
@@ -14937,6 +14943,8 @@
 	 * @namespace
 	 */
 	DataTable.render = {
+
+
 		number: function ( thousands, decimal, precision, prefix, postfix ) {
 			return {
 				display: function ( d ) {
@@ -14978,6 +14986,8 @@
 				filter: __htmlEscapeEntities
 			};
 		}
+
+
 	};
 	
 	

@@ -44,3 +44,10 @@ Route::get('/servicios','ServiciosController@index')->name('servicios');
 Route::post('/registrarServicios','ServiciosController@store')->name('servicios.store');
 Route::post('/borrarServicios','ServiciosController@destroy')->name('servicios.delete');
 Route::post('/actualizarServicios','ServiciosController@update')->name('servicios.update');
+
+////CRUD Afiliaciones
+
+Route::get('/afiliaciones','AfiliacionesController@index')->name('afiliaciones');
+Route::post('/registrarAfiliaciones','AfiliacionesController@store')->name('afiliaciones.store');
+Route::post('/borrarAfiliaciones','AfiliacionesController@destroy')->name('afiliaciones.delete');
+Route::post('/actualizarAfiliaciones','AfiliacionesController@update')->name('afiliaciones.update');

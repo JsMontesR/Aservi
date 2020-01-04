@@ -1,93 +1,88 @@
 @extends('layouts.app')
 
 @section('content')
-<h1 align="center">Servicios</h1>
-<br>
+
+    <h1 align="center">Servicios</h1>
+    <br>
 
  @if(session()->has('success'))
 
     <div class="alert alert-success" role="alert">{{session('success')}}</div>
 
 @endif
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md">
-            <div class="card" >
-                <div class="card-header" style="font-size:20px" align="center">Detalle Servicios</div>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Detalle servicio</h6>
+    </div>
+        <div class="card-body">
+            <form id="form1" name="form1" method="POST">
+            @csrf
 
-                <div class="card-body">
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label text-md-left">Id:</label>
 
-                    <form id="form1" name="form1" method="POST">
-                        @csrf
-
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-left">Id:</label>
-
-                            <div class="col-md-8">
-                                <input readonly="readonly" id="id" class="form-control @error('id') is-invalid @enderror" value="{{old('id')}}" name="id" required autocomplete="iduser">
-                                @error('id')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-left">Nombre del servicio:</label>
-
-                            <div class="col-md-8">
-                                <input id="nombre" class="form-control @error('nombre') is-invalid @enderror" value="{{old('nombre')}}" name="nombre" required autocomplete="nombre">
-                                @error('nombre')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-left">Periodicidad:</label>
-
-                            <div class="col-md-8">
-                                <select id="periodicidad" name="periodicidad" class="form-control" style="text-transform: capitalize" value="{{old('periodicidad')}}">
-                                 
-                                        <option value="Mensual" selected="">Mensual</option>
-                                        <option value="Trimestral">Trimestral</option>
-                                        <option value="Semestral">Semestral</option>
-                                        <option value="Anual">Anual</option>
-
-                                    <script type="text/javascript">
-                                        var value = {!!json_encode(old('periodicidad'))!!};
-                                        if(value != null){
-                                            document.getElementById("periodicidad").value = {!!json_encode(old('periodicidad'))!!}
-                                        }
-                                    </script>
-                                </select>
-                            </div>
-                        </div>
+                <div class="col-md-8">
+                    <input readonly="readonly" id="id" class="form-control @error('id') is-invalid @enderror" value="{{old('id')}}" name="id" required autocomplete="iduser">
+                    @error('id')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
+            </div>
 
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label text-md-left">Nombre del servicio:</label>
+
+                <div class="col-md-8">
+                    <input id="nombre" class="form-control @error('nombre') is-invalid @enderror" value="{{old('nombre')}}" name="nombre" required autocomplete="nombre">
+                    @error('nombre')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
+            </div>
 
-                <div align="center">
-                           
-                            <br>
-                            <div class="btn-group col-md">
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label text-md-left">Periodicidad:</label>
+
+                <div class="col-md-8">
+                    <select id="periodicidad" name="periodicidad" class="form-control" style="text-transform: capitalize" value="{{old('periodicidad')}}">
+                     
+                            <option value="Mensual" selected="">Mensual</option>
+                            <option value="Trimestral">Trimestral</option>
+                            <option value="Semestral">Semestral</option>
+                            <option value="Anual">Anual</option>
+
+                        <script type="text/javascript">
+                            var value = {!!json_encode(old('periodicidad'))!!};
+                            if(value != null){
+                                document.getElementById("periodicidad").value = {!!json_encode(old('periodicidad'))!!}
+                            }
+                        </script>
+                    </select>
+                </div>
+            </div>
+        </form>
+
+        <div align="center">   
+                    <br>
+                        <div class="btn-group col-md">
                             <input id="registrar" type="button" value="Registrar" class="btn btn-primary" onclick= "registrarUsuario()" />
 
                             <input type="button" value="Modificar" class="btn btn-warning" onclick= "modificarUsuario()" />
 
-                            </div>
+                        </div>
                             <br>
-                            <div class="btn-group col-md">
+
+                        <div class="btn-group col-md">
                             <input type="button" value="Limpiar" class="btn btn-secondary" onclick= "limpiarCampos()" />
                             
                             <input type="button" value="Eliminar" class="btn btn-danger" onclick= "eliminarUsuario()" />
-                            </div>
+                        </div>
                              <script type="text/javascript">
                                 
-                            
                                 function registrarUsuario(){
 
                                     document.form1.action = '{{ route('servicios.store') }}';
@@ -119,30 +114,20 @@
 
                             </script>
 
-                        </form>
-
-
-                        </div>
-
-                        <br>
-                    
                 </div>
-            </div>
+
         </div>
+    </div>
 
-       
-        <br>
-
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md">
-                    <div class="card">
-                        <div class="card-header" style="font-size:20px" align="center">Servicios registrados</div>
-                            <div class="card mb-3">     
-                              <div class="card-body">
-                                <div class="table-responsive">
+    <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Servicios registrados</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
                                   @if(!$servicios->isEmpty())
-                                  <table class="table table-bordered" data-name="my_table" width="100%" cellspacing="0">
+
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" data-name="my_table">
                                     
                                             <thead>
                                               <tr>
@@ -208,11 +193,18 @@
 
                                 </div>
                               </div>
-                            </div> 
 
-                </div>
-            </div>
         </div>
+</div>
+                
+
+
+                
+
+                    <br>
+                    
+
+        
     </div> 
 
     </div>
