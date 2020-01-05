@@ -2,7 +2,9 @@
 
 @section('content')
 
-    <h1 align="center">Clientes</h1>
+    <div class="card-header py-3">
+        <h1 align="center" class="m-0 font-weight-bold text-primary">Clientes</h6>
+    </div>
     <br>
 
  @if(session()->has('success'))

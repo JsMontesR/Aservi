@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-
-    <h1 align="center">Afiliaciones</h1>
+    <div class="card-header py-3">
+        <h1 align="center" class="m-0 font-weight-bold text-primary">Afiliaciones</h6>
+    </div>
     <br>
 
  @if(session()->has('success'))
@@ -263,7 +264,7 @@
 
     <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Servicios registrados</h6>
+              <h6 class="m-0 font-weight-bold text-primary">Afiliaciones registradas</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -330,7 +331,7 @@
                                     
                                   </table>
                                   @else
-                                      <h3 align="center">No hay servicios disponibles, intentelo más tarde</h3>
+                                      <h3 align="center">No hay afiliaciones disponibles, intentelo más tarde</h3>
                                   @endif
                                   <script type="text/javascript" src="{{asset('js/spanishtable.js')}}"></script>
                                   <script type="text/javascript" src="{{asset('js/spanish.js')}}"></script>

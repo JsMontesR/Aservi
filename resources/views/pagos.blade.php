@@ -2,7 +2,9 @@
 
 @section('content')
 
-    <h1 align="center">Pagos</h1>
+    <div class="card-header py-3">
+        <h1 align="center" class="m-0 font-weight-bold text-primary">Pagos</h6>
+    </div>
     <br>
 
  @if(session()->has('success'))
@@ -170,20 +172,6 @@
                     <div class="col-md-8">
                         <input readonly="readonly" id="fechaSiguientePago" class="form-control @error('fechaSiguientePago') is-invalid @enderror" value="{{old('fechaSiguientePago')}}" name="fechaSiguientePago" required autocomplete>
                         @error('fechaSiguientePago')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                    </div>
-                    
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label text-md-left">Monto:</label>
-
-                    <div class="col-md-8">
-                        <input type="number" id="monto" class="form-control @error('monto') is-invalid @enderror" value="{{old('monto')}}" name="monto" required autocomplete>
-                        @error('monto')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>

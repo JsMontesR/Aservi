@@ -11,6 +11,7 @@ class ServiciosController extends Controller
     public $validationRules = [
             'nombre' => 'required',
             'periodicidad' => 'required',
+            'costo' => 'required|integer|min:0',
         ];
 
     public $validationIdRule = ['id' => 'required|integer|min:0'];
@@ -26,7 +27,9 @@ class ServiciosController extends Controller
        $servicios = DB::table('servicios')->select(
         DB::raw('id as Id'),
         DB::raw('nombre as Nombre'),
-        DB::raw('periodicidad as Periodicidad'))
+        DB::raw('periodicidad as Periodicidad'),
+        DB::raw('costo as Costo')
+    )
        ->get();
 
         return view('servicios',compact('servicios'));
@@ -46,6 +49,7 @@ class ServiciosController extends Controller
         $servicio = new Servicio;
         $servicio->nombre = $request->nombre;
         $servicio->periodicidad = $request->periodicidad;
+        $servicio->costo = $request->costo;
         $servicio->save();
 
         return redirect()->route('servicios')->with('success', 'Servicio registrado');

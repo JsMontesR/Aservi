@@ -2,13 +2,13 @@
 
 @section('content')
 
-    <h1 align="center">Servicios</h1>
+    <div class="card-header py-3">
+        <h1 align="center" class="m-0 font-weight-bold text-primary">Servicios</h6>
+    </div>
     <br>
 
  @if(session()->has('success'))
-
     <div class="alert alert-success" role="alert">{{session('success')}}</div>
-
 @endif
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -64,6 +64,20 @@
                     </select>
                 </div>
             </div>
+
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label text-md-left">Costo:</label>
+
+                <div class="col-md-8">
+                    <input id="costo" type="number" class="form-control @error('costo') is-invalid @enderror" value="{{old('costo')}}" name="costo" required autocomplete="costo">
+                    @error('costo')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
+            </div>
+
         </form>
 
         <div align="center">   

@@ -17,7 +17,7 @@ class CreateServiciosTable extends Migration
             $table->bigIncrements('id');
             $table->string('nombre');
             $table->string('periodicidad');
-            $table->unsignedBigInteger('valor');
+            $table->unsignedBigInteger('costo');
             $table->timestamps();
         });
     }
