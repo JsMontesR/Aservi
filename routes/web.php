@@ -51,3 +51,10 @@ Route::get('/afiliaciones','AfiliacionesController@index')->name('afiliaciones')
 Route::post('/registrarAfiliaciones','AfiliacionesController@store')->name('afiliaciones.store');
 Route::post('/borrarAfiliaciones','AfiliacionesController@destroy')->name('afiliaciones.delete');
 Route::post('/actualizarAfiliaciones','AfiliacionesController@update')->name('afiliaciones.update');
+
+////CRUD Pagos
+
+Route::get('/pagos','PagosController@index')->name('pagos');
+Route::post('/registrarPagos','PagosController@store')->name('pagos.store');
+Route::post('/borrarPagos','PagosController@destroy')->name('pagos.delete');
+Route::post('/actualizarPagos','PagosController@update')->name('pagos.update');

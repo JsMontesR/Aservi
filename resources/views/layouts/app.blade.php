@@ -77,7 +77,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{route('pagos')}}">
           <em class="fas fa-fw fa-dollar-sign"></em>
           <span>Pagos</span></a>
       </li>

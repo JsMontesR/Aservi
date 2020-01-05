@@ -27,7 +27,8 @@ class AfiliacionesController extends Controller
         DB::raw('cliente_id as "Id cliente"'),
         DB::raw('clientes.nombre as "Nombre cliente"'),
         DB::raw('cliente_id as "Id servicio"'),
-        DB::raw('servicios.nombre as "Nombre servicio"'))
+        DB::raw('servicios.nombre as "Nombre servicio"'),
+        DB::raw('afiliaciones.fechaSiguientePago as "Fecha de siguiente pago"'))
        ->join('clientes', 'clientes.id', '=', 'afiliaciones.cliente_id')
        ->join('servicios', 'servicios.id', '=', 'afiliaciones.servicio_id')
        ->get();
@@ -56,16 +57,12 @@ class AfiliacionesController extends Controller
 
         $request->validate($this->validationRules);
 
-        $cliente = new Cliente;
-        $cliente->nombre = $request->name;
-        $cliente->email = $request->email;
-        $cliente->di = $request->cedula;
-        $cliente->telefonocelular = $request->telefonocelular;
-        $cliente->direccion = $request->direccion;
-        $cliente->telefonofijo = $request->telefonofijo;
-        $cliente->save();
+        $afiliacion = new Afiliacion;
+        $afiliacion->cliente_id = $request->cliente_id;
+        $afiliacion->servicio_id = $request->servicio_id;
+        $afiliacion->save();
 
-        return redirect()->route('clientes')->with('success', 'Cliente registrado');
+        return back()->with('success', 'Afiliación creada');
     }
 
     /**
@@ -78,17 +75,13 @@ class AfiliacionesController extends Controller
     {
         $request->validate($this->validationIdRule);
         $request->validate($this->validationRules);
-        
-        $cliente = Cliente::findOrFail($request->id);
-        $cliente->nombre = $request->name;
-        $cliente->email = $request->email;
-        $cliente->di = $request->cedula;
-        $cliente->telefonocelular = $request->telefonocelular;
-        $cliente->direccion = $request->direccion;
-        $cliente->telefonofijo = $request->telefonofijo;
-        $cliente->save();
 
-        return back()->with('success', 'Cliente actualizado');
+        $afiliacion = Afiliacion::findOrFail($request->id);
+        $afiliacion->cliente_id = $request->cliente_id;
+        $afiliacion->servicio_id = $request->servicio_id;
+        $afiliacion->save();
+
+        return back()->with('success', 'Afiliación actualizada');
     }
 
     /**
@@ -101,7 +94,7 @@ class AfiliacionesController extends Controller
     {
         $request->validate($this->validationIdRule);
         
-        Cliente::findOrFail($request->id)->delete();
-        return redirect()->route('clientes')->with('success', 'Cliente eliminado');
+        Afiliacion::findOrFail($request->id)->delete();
+        return back()->with('success', 'Cliente eliminado');
     }
 }

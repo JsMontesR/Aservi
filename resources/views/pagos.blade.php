@@ -1,268 +1,339 @@
 @extends('layouts.app')
 
 @section('content')
-<h1 align="center">Clientes</h1>
-<br>
+
+    <h1 align="center">Pagos</h1>
+    <br>
 
  @if(session()->has('success'))
 
     <div class="alert alert-success" role="alert">{{session('success')}}</div>
 
 @endif
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md">
-            <div class="card" >
-                <div class="card-header" style="font-size:20px" align="center">Detalle Cliente</div>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Detalle pago</h6>
+    </div>
+        <div class="card-body">
+            <form id="form1" name="form1" method="POST">
+            @csrf
 
-                <div class="card-body">
+                <div class="form-group row">
+                    <label class="col-md-4 col-form-label text-md-left">Número de pago (Id):</label>
 
-                    <form id="form1" name="form1" method="POST">
-                        @csrf
-
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-left">Id:</label>
-
-                            <div class="col-md-8">
-                                <input readonly="readonly" id="id" class="form-control @error('id') is-invalid @enderror" value="{{old('id')}}" name="id" required autocomplete="iduser">
-                                @error('id')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-left">Nombre:</label>
-
-                            <div class="col-md-8">
-                                <input id="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}" name="name" required autocomplete="name">
-                                @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-left">Cédula</label>
-
-                            <div class="col-md-8">
-                                <input  id="cedula" class="form-control @error('cedula') is-invalid @enderror" value="{{old('cedula')}}" name="cedula" required autocomplete>
-                                @error('cedula')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-left">Teléfono Celular:</label>
-
-                            <div class="col-md-8">
-                                <input id="telefonocelular" class="form-control @error('telefonocelular') is-invalid @enderror" value="{{old('telefonocelular')}}" name="telefonocelular" required autocomplete>
-                                @error('telefonocelular')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-left">Teléfono fijo:</label>
-
-                            <div class="col-md-8">
-                                <input id="telefonofijo" class="form-control @error('telefonofijo') is-invalid @enderror" value="{{old('telefonofijo')}}" name="telefonofijo" required autocomplete>
-                                @error('telefonofijo')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-left">Correo electrónico:</label>
-
-                            <div class="col-md-8">
-                                <input id="email" class="form-control @error('email') is-invalid @enderror" value="{{old('email')}}" name="email" required autocomplete="email">
-                                @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-left">Dirección:</label>
-
-                            <div class="col-md-8">
-                                <input  id="direccion" class="form-control " name="direccion" value="{{old('direccion')}}" required autocomplete>
-                            </div>
-                        </div>
-
+                    <div class="col-md-8">
+                        <input readonly="readonly" id="id" class="form-control @error('id') is-invalid @enderror" value="{{old('id')}}" name="id" required autocomplete="iduser">
+                        @error('id')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
                 </div>
 
-                </div>
+                <div class="form-group row">
+                    <label class="col-md-4 col-form-label text-md-left">Afiliación (Id):</label>
 
-                <div align="center">
-                           
-                            <br>
-                            <div class="btn-group col-md">
-                            <input id="registrar" type="button" value="Registrar" class="btn btn-primary" onclick= "registrarUsuario()" />
-
-                            <input type="button" value="Modificar" class="btn btn-warning" onclick= "modificarUsuario()" />
-
-                            </div>
-                            <br>
-                            <div class="btn-group col-md">
-                            <input type="button" value="Limpiar" class="btn btn-secondary" onclick= "limpiarCampos()" />
-                            
-                            <input type="button" value="Eliminar" class="btn btn-danger" onclick= "eliminarUsuario()" />
-                            </div>
-                             <script type="text/javascript">
-                                
-                            
-                                function registrarUsuario(){
-
-                                    document.form1.action = '{{ route('clientes.store') }}';
-                                    document.form1.submit();
-                                }
-
-                                function modificarUsuario(){
-
-                                    document.form1.action = '{{ route('clientes.update') }}';
-                                    document.form1.submit();
-                                }
-
-                                function eliminarUsuario(){
-                                    var opcion = confirm("¿Está seguro que desea eliminar el cliente seleccionado?");
-                                    if(opcion){
-                                        var valor = document.getElementById('id').value;
-                                        document.form1.action = '{{ route('clientes.delete') }}';    
-                                        document.form1.submit();
-                                    }
-                                    
-                                }
-
-                                function limpiarCampos(){
-                                            document.getElementById('id').value = "";
-                                            document.getElementById('name').value = "";
-                                            document.getElementById('email').value = "";
-                                            document.getElementById('cedula').value = "";
-                                            document.getElementById('telefonocelular').value = "";
-                                            document.getElementById('telefonofijo').value = "";
-                                            document.getElementById('direccion').value = "";
-                                            document.getElementById('registrar').disabled = false;
-                                        }
-
-                            </script>
-
-                        </form>
-
-
-                        </div>
-
-                        <br>
+                    <div class="col-md-8">
+                        <input readonly="readonly" id="afiliacion_id" class="form-control @error('afiliacion_id') is-invalid @enderror" value="{{old('afiliacion_id')}}" name="afiliacion_id" required autocomplete>
+                        @error('afiliacion_id')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
                     
                 </div>
+
+                <div class="card mb-3">     
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table table-bordered" data-name="my_table" width="100%" cellspacing="0">
+                        @if(!$afiliaciones->isEmpty())
+                                <thead>
+                                  <tr>
+                                    <th>Seleccionar</th>
+                                    @foreach ($afiliaciones->get(0) as $key => $value) 
+                                        <th>{{$key}}</th>
+                                    @endforeach
+                                    
+                                  </tr>       
+                                </thead>
+                                <tbody>
+                                   @foreach($afiliaciones as $afiliacion)
+                                    <tr>
+                                        <td align="center">
+                                            <a id="{{$afiliacion->Id}}e" class="btn btn-secondary text-white">
+                                                <em class="fas fa-angle-up"></em>
+                                                Cargar
+                                            </a>
+                                        </td>
+                                        <script type="text/javascript">
+                                          
+                                            var cambiar = function(){
+                                                document.getElementById('afiliacion_id').value = {!!json_encode($afiliacion->Id)!!};
+                                                document.getElementById('nombreCliente').value = {!!json_encode($afiliacion->{'Nombre del cliente'})!!};
+                                                document.getElementById('cedula').value = {!!json_encode($afiliacion->Cedula)!!};
+                                                document.getElementById('servicio_id').value = {!!json_encode($afiliacion->{'Id del servicio'})!!};
+                                                document.getElementById('nombreServicio').value = {!!json_encode($afiliacion->{'Nombre del servicio'})!!};
+                                                document.getElementById('fechaSiguientePago').value = {!!json_encode($afiliacion->{'Fecha de siguiente pago'})!!};
+                                            };
+                                            var input = document.getElementById({!!json_encode($afiliacion->Id)!!}+"e");
+                                            input.addEventListener('click',cambiar);
+                                            
+                                        </script>
+                                        @foreach ($afiliaciones[0] as $key => $value) 
+                                            <td>{{ $afiliacion->{$key} }}</td>
+                                        @endforeach
+                                    </tr>
+
+                                    @endforeach
+                                </tbody>
+                                <tfoot>
+                                  <tr>
+                                    <th>Seleccionar</th>
+                                    @foreach ($afiliaciones[0] as $key => $value) 
+                                        <th>{{$key}}</th>
+                                    @endforeach
+                                  </tr>
+                                </tfoot>
+                        @else
+                          <h3 align="center">No hay afiliaciones disponibles, intentelo más tarde</h3>
+                        @endif
+                      </table>
+                      
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-4 col-form-label text-md-left">Nombre cliente:</label>
+
+                    <div class="col-md-8">
+                        <input readonly="readonly" id="nombreCliente" class="form-control @error('nombreCliente') is-invalid @enderror" value="{{old('nombreCliente')}}" name="nombreCliente" required autocomplete>
+                        @error('nombreCliente')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-4 col-form-label text-md-left">Cedula cliente:</label>
+
+                    <div class="col-md-8">
+                        <input readonly="readonly" id="cedula" class="form-control @error('cedula') is-invalid @enderror" value="{{old('cedula')}}" name="cedula" required autocomplete>
+                        @error('cedula')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    
+                </div>
+
+
+                <div class="form-group row">
+                    <label class="col-md-4 col-form-label text-md-left">Número servicio:</label>
+
+                    <div class="col-md-8">
+                        <input readonly="readonly" id="servicio_id" class="form-control @error('servicio_id') is-invalid @enderror" value="{{old('servicio_id')}}" name="servicio_id" required autocomplete>
+                        @error('servicio_id')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-4 col-form-label text-md-left">Nombre servicio:</label>
+
+                    <div class="col-md-8">
+                        <input readonly="readonly" id="nombreServicio" class="form-control @error('nombreServicio') is-invalid @enderror" value="{{old('nombreServicio')}}" name="nombreServicio" required autocomplete>
+                        @error('nombreServicio')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-4 col-form-label text-md-left">Fecha límite de pago:</label>
+
+                    <div class="col-md-8">
+                        <input readonly="readonly" id="fechaSiguientePago" class="form-control @error('fechaSiguientePago') is-invalid @enderror" value="{{old('fechaSiguientePago')}}" name="fechaSiguientePago" required autocomplete>
+                        @error('fechaSiguientePago')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-4 col-form-label text-md-left">Monto:</label>
+
+                    <div class="col-md-8">
+                        <input type="number" id="monto" class="form-control @error('monto') is-invalid @enderror" value="{{old('monto')}}" name="monto" required autocomplete>
+                        @error('monto')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    
+                </div>
+        </form>
+
+        <div align="center">
+                           
+            <br>
+            <div class="btn-group col-md">
+            <input id="registrar" type="button" value="Registrar" class="btn btn-primary" onclick= "registrarPago()" />
+
+            <input type="button" value="Modificar" class="btn btn-warning" onclick= "modificarPago()" />
+
             </div>
+            <br>
+            <div class="btn-group col-md">
+            <input type="button" value="Limpiar" class="btn btn-secondary" onclick= "limpiarCampos()" />
+            
+            <input type="button" value="Eliminar" class="btn btn-danger" onclick= "eliminarPago()" />
+            </div>
+             <script type="text/javascript">
+                
+            
+                function registrarPago(){
+
+                    document.form1.action = '{{ route('pagos.store') }}';
+                    document.form1.submit();
+                }
+
+                function modificarPago(){
+
+                    document.form1.action = '{{ route('pagos.update') }}';
+                    document.form1.submit();
+                }
+
+                function eliminarPago(){
+                    var opcion = confirm("¿Está seguro que desea eliminar el pago seleccionado?");
+                    if(opcion){
+                        var valor = document.getElementById('id').value;
+                        document.form1.action = '{{ route('pagos.delete') }}';    
+                        document.form1.submit();
+                    }
+                    
+                }
+
+                function limpiarCampos(){
+                            document.getElementById('id').value = "";
+                            document.getElementById('afiliacion_id').value = "";
+                            document.getElementById('nombreCliente').value = "";
+                            document.getElementById('cedula').value = "";
+                            document.getElementById('servicio_id').value = "";
+                            document.getElementById('nombreServicio').value = "";
+                            document.getElementById('fechaSiguientePago').value = "";
+                        }
+
+            </script>
+
+
         </div>
 
-       
-        <br>
+        </div>
+    </div>
 
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md">
-                    <div class="card">
-                        <div class="card-header" style="font-size:20px" align="center">Clientes registrados</div>
-                            <div class="card mb-3">     
-                              <div class="card-body">
-                                <div class="table-responsive">
-                                  @if(!$clientes->isEmpty())
-                                  <table class="table table-bordered" data-name="my_table" width="100%" cellspacing="0">
+    <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Pagos registrados</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                      @if(!$pagos->isEmpty())
+
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" data-name="my_table">
+                        
+                                <thead>
+                                  <tr>
+                                    <th>Seleccionar</th>
+                                    @foreach ($pagos->get(0) as $key => $value) 
+                                       
+                                        <th>{{$key}}</th>
+                                        
+                                    @endforeach
                                     
-                                            <thead>
-                                              <tr>
-                                                <th>Seleccionar</th>
-                                                @foreach ($clientes->get(0) as $key => $value) 
-                                                   
-                                                    <th>{{$key}}</th>
-                                                    
-                                                @endforeach
-                                                
-                                              </tr>       
-                                            </thead>
-                                            <tbody>
-                                               @foreach($clientes as $registro)
-                                                <tr>
-                                                    <td align="center">
-                                                        <a id="{{$registro->Id}}" class="btn btn-secondary text-white" href="#page-top">
-                                                            <em class="fas fa-angle-up"></em> 
-                                                            Ver
-                                                        </a>
-                                                    </td>
-                                                    <script type="text/javascript">
+                                  </tr>       
+                                </thead>
+                                <tbody>
+                                   @foreach($pagos as $registro)
+                                    <tr>
+                                        <td align="center">
+                                            <a id="{{$registro->Id}}" class="btn btn-secondary text-white" href="#page-top">
+                                                <em class="fas fa-angle-up"></em> 
+                                                Ver
+                                            </a>
+                                        </td>
+                                        <script type="text/javascript">
 
-                                                        var cambiar = function(){
-                                                            document.getElementById('registrar').disabled = true;
-                                                            document.getElementById('id').value = {!!json_encode($registro->Id)!!};
-                                                            document.getElementById('name').value = {!!json_encode($registro->Nombre)!!};
-                                                            document.getElementById('cedula').value = {!!json_encode($registro->Cedula)!!};
-                                                            document.getElementById('email').value = {!!json_encode($registro->Email)!!};
-                                                            document.getElementById('telefonofijo').value = {!!json_encode($registro->{'Telefono Fijo'})!!};
-                                                            document.getElementById('telefonocelular').value = {!!json_encode($registro->{'Telefono Celular'})!!};
-                                                            document.getElementById('direccion').value = {!!json_encode($registro->Direccion)!!};
+                                            var cambiar = function(){
+                                                document.getElementById('registrar').disabled = true;
+                                                document.getElementById('id').value = {!!json_encode($registro->Id)!!};
+                                                document.getElementById('afiliacion_id').value = {!!json_encode($registro->{'Id afiliacion'})!!};
+                                                document.getElementById('nombreCliente').value = {!!json_encode($registro->{'Nombre cliente'})!!};
+                                                document.getElementById('cedula').value = {!!json_encode($registro->Cedula)!!};
+                                                document.getElementById('servicio_id').value = {!!json_encode($registro->{'Id servicio'})!!};
+                                                document.getElementById('nombreServicio').value = {!!json_encode($registro->{'Nombre servicio'})!!};
+                                                document.getElementById('monto').value = {!!json_encode($registro->Monto)!!};
 
-                                                        };
-                                                        var input = document.getElementById({!!json_encode($registro->Id)!!});
-                                                        input.addEventListener('click',cambiar);
-                                                        
-                                                    </script>
-                                                    @foreach ($registro as $key => $value) 
-                                                        
-                                                        <td>{{ $value }}</td>
-                                                        
-                                                    @endforeach
-                                                    
-                                                </tr>
+                                            };
+                                            var input = document.getElementById({!!json_encode($registro->Id)!!});
+                                            input.addEventListener('click',cambiar);
+                                            
+                                        </script>
+                                        @foreach ($registro as $key => $value) 
+                                            
+                                            <td>{{ $value }}</td>
+                                            
+                                        @endforeach
+                                        
+                                    </tr>
 
-                                                @endforeach
-                                            </tbody>
-                                            <tfoot>
-                                              <tr>
-                                                <th>Seleccionar</th>
-                                                @foreach ($clientes[0] as $key => $value) 
-                                                    
-                                                    <th>{{$key}}</th>
-                                                    
-                                                @endforeach
-                                                
-                                              </tr>
-                                            </tfoot>
+                                    @endforeach
+                                </tbody>
+                                <tfoot>
+                                  <tr>
+                                    <th>Seleccionar</th>
+                                    @foreach ($pagos[0] as $key => $value) 
+                                        
+                                        <th>{{$key}}</th>
+                                        
+                                    @endforeach
+                                    
+                                  </tr>
+                                </tfoot>
                                     
                                   </table>
                                   @else
-                                      <h3 align="center">No hay clientes disponibles, intentelo más tarde</h3>
+                                      <h3 align="center">No hay pagos disponibles, intentelo más tarde</h3>
                                   @endif
                                   <script type="text/javascript" src="{{asset('js/spanishtable.js')}}"></script>
                                   <script type="text/javascript" src="{{asset('js/spanish.js')}}"></script>
 
                                 </div>
                               </div>
-                            </div> 
 
-                </div>
-            </div>
-        </div>
-    </div> 
-
+                            </div>
+                    </div>
+                <br>
+        </div> 
     </div>
 </div>
 @endsection

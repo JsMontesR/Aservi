@@ -16,7 +16,7 @@ class CreateAfiliacionesTable extends Migration
         Schema::create('afiliaciones', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->date('fechaSiguientePago');
+            $table->date('fechaSiguientePago')->nullable();
         });
     }
 

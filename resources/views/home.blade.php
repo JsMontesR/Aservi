@@ -61,7 +61,7 @@
           <div class="row no-gutters align-items-center">
             <div class="col mr-2">
               <div class="h5 mb-0 font-weight-bold text-yellow-800">
-                <a href="#" class="font-weight-bold text-warning">Pagos</a>
+                <a href="{{route('pagos')}}" class="font-weight-bold text-warning">Pagos</a>
               </div>
             </div>
             <div class="col-auto">

@@ -11,7 +11,7 @@ class Servicio extends Model
     protected $fillable = ['id','nombre','periodicidad'];
 
     public function afiliaciones(){
-    	return $this->belongsToMany(Afiliacion::class,'afiliaciones','id','servicio_id');
+    	return $this->hasMany(Afiliacion::class);
     }
 
 }
