@@ -8,7 +8,7 @@
           <div class="row no-gutters align-items-center">
             <div class="col mr-2">
               <div class="h5 mb-0 font-weight-bold text-gray-800">
-                <a href="{{route('reporteMora')}}" class="font-weight-bold text-secondary">Clientes en mora</a>
+                <a href="{{route('reporteEstado')}}" class="font-weight-bold text-secondary">Estado de clientes</a>
               </div>
             </div>
             <div class="col-auto">

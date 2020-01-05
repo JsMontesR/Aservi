@@ -62,4 +62,6 @@ Route::post('/actualizarPagos','PagosController@update')->name('pagos.update');
 ////Reportes
 
 Route::get('/reportes','ReportesController@index')->name('reportes');
-Route::get('/reporteMora','ReportesController@ReporteMora')->name('reporteMora');
+Route::get('/reporteEstado','ReportesController@reporteEstado')->name('reporteEstado');
+
+Route::get('/reporteEstado.pdf','ReportesController@reporteEstadoPdf')->name('reporteEstado.pdf');
