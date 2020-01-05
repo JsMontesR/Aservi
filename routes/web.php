@@ -58,3 +58,8 @@ Route::get('/pagos','PagosController@index')->name('pagos');
 Route::post('/registrarPagos','PagosController@store')->name('pagos.store');
 Route::post('/borrarPagos','PagosController@destroy')->name('pagos.delete');
 Route::post('/actualizarPagos','PagosController@update')->name('pagos.update');
+
+////Reportes
+
+Route::get('/reportes','ReportesController@index')->name('reportes');
+Route::get('/reporteMora','ReportesController@ReporteMora')->name('reporteMora');

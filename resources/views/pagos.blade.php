@@ -222,6 +222,7 @@
                 }
 
                 function limpiarCampos(){
+                            document.getElementById('registrar').disabled = false;
                             document.getElementById('id').value = "";
                             document.getElementById('afiliacion_id').value = "";
                             document.getElementById('nombreCliente').value = "";
@@ -279,7 +280,6 @@
                                                 document.getElementById('cedula').value = {!!json_encode($registro->Cedula)!!};
                                                 document.getElementById('servicio_id').value = {!!json_encode($registro->{'Id servicio'})!!};
                                                 document.getElementById('nombreServicio').value = {!!json_encode($registro->{'Nombre servicio'})!!};
-                                                document.getElementById('monto').value = {!!json_encode($registro->Monto)!!};
 
                                             };
                                             var input = document.getElementById({!!json_encode($registro->Id)!!});

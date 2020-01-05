@@ -82,6 +82,16 @@
           <span>Pagos</span></a>
       </li>
 
+      <div class="sidebar-heading">
+        Reportes
+      </div>
+
+      <li class="nav-item">
+        <a class="nav-link" href="{{route('reportes')}}">
+          <em class="fas fa-fw fa-file-alt"></em>
+          <span>Reportes</span></a>
+      </li>
+
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 

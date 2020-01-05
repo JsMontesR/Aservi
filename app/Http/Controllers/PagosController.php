@@ -11,7 +11,6 @@ class PagosController extends Controller
 {
     public $validationRules = [
             'afiliacion_id' => 'required|integer|min:0',
-            'monto' => 'required|integer|min:0'
         ];
 
     public $validationIdRule = ['id' => 'required|integer|min:0'];
@@ -64,7 +63,6 @@ class PagosController extends Controller
 
         $pago = new Pago;
         $pago->afiliacion_id = $request->afiliacion_id;
-        $pago->monto = $request->monto;
         $this->calcularProximoPago($pago->afiliacion);
         $pago->save();
 
@@ -94,9 +92,7 @@ class PagosController extends Controller
             $nuevaFechaProximoPago = date("Y-m-d H:i:s",strtotime($fecha."+ 12 month"));
         }
 
-        $nuevaFechaProximoPago = date("Y-m-d H:i:s",strtotime($nuevaFechaProximoPago."+ ". $diasPlazoPago ." day"));
-
-        $afiliacion->fechaSiguientePago = $nuevaFechaProximoPago;
+        $afiliacion->fechaSiguientePago = (new DateTime())->setDate(date("Y",strtotime($nuevaFechaProximoPago)), date("m",strtotime($nuevaFechaProximoPago)), $diasPlazoPago);
         $afiliacion->save();
     }
 
