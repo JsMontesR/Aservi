@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use App\Servicio;
 use DB;
@@ -83,8 +83,22 @@ class ServiciosController extends Controller
     public function destroy(Request $request)
     {
         $request->validate($this->validationIdRule);
-        
-        Servicio::findOrFail($request->id)->delete();
+        try {
+            Servicio::findOrFail($request->id)->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            throw ValidationException::withMessages(['id' => 'El servicio no puede ser eliminado ya que aún existen afiliaciones que hacen uso de él',]);
+        }    
+       
         return redirect()->route('servicios')->with('success', 'Servicio eliminado');
+    }
+
+    public function print(Request $request){
+        $nombre = "Asesoría en seguridad social\nTeléfono 2190753\nCelular 310 544 9295";
+        $fechaActual = (new DateTime())->format('d/m/yy');
+        $horaActual = (new DateTime())->format('hh:mm');
+        
+        
+        $pdf = \PDF::loadView('pdf.servicio',compact('nombre','cliente','fecha','problema','notas','equipo'));
+        return $pdf->stream('servicio.pdf');
     }
 }

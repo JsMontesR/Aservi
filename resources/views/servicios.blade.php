@@ -48,7 +48,7 @@
                 <label class="col-md-4 col-form-label text-md-left">Periodicidad:</label>
 
                 <div class="col-md-8">
-                    <select id="periodicidad" name="periodicidad" class="form-control" style="text-transform: capitalize" value="{{old('periodicidad')}}">
+                    <select id="periodicidad" name="periodicidad" class="form-control @error('periodicidad') is-invalid @enderror" style="text-transform: capitalize" value="{{old('periodicidad')}}">
                      
                             <option value="Mensual" selected="">Mensual</option>
                             <option value="Trimestral">Trimestral</option>
@@ -62,6 +62,11 @@
                             }
                         </script>
                     </select>
+                    @error('periodicidad')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
             </div>
 
@@ -123,6 +128,7 @@
                                             document.getElementById('id').value = "";
                                             document.getElementById('nombre').value = "";
                                             document.getElementById('periodicidad').value = "";
+                                            document.getElementById('costo').value = "";
                                             document.getElementById('registrar').disabled = false;
                                         }
 
@@ -170,6 +176,7 @@
                                                             document.getElementById('id').value = {!!json_encode($registro->Id)!!};
                                                             document.getElementById('nombre').value = {!!json_encode($registro->Nombre)!!};
                                                             document.getElementById('periodicidad').value = {!!json_encode($registro->Periodicidad)!!};
+                                                             document.getElementById('costo').value = {!!json_encode($registro->Costo)!!};
 
                                                         };
                                                         var input = document.getElementById({!!json_encode($registro->Id)!!});

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use DB;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use App\Cliente;
 
@@ -93,8 +94,11 @@ class ClientesController extends Controller
     public function destroy(Request $request)
     {
         $request->validate($this->validationIdRule);
-        
-        Cliente::findOrFail($request->id)->delete();
+        try {
+            Cliente::findOrFail($request->id)->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            throw ValidationException::withMessages(['id' => 'El cliente no puede ser eliminado ya que existen afiliaciones a su nombre',]);
+        }    
         return redirect()->route('clientes')->with('success', 'Cliente eliminado');
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use App\Pago;
 use DB;
@@ -11,6 +11,8 @@ class PagosController extends Controller
 {
     public $validationRules = [
             'afiliacion_id' => 'required|integer|min:0',
+            'tipoPago' => 'required',
+
         ];
 
     public $validationIdRule = ['id' => 'required|integer|min:0'];
@@ -29,7 +31,9 @@ class PagosController extends Controller
         DB::raw('clientes.nombre as "Nombre cliente"'),
         DB::raw('clientes.di as Cedula'),
         DB::raw('cliente_id as "Id servicio"'),
-        DB::raw('servicios.nombre as "Nombre servicio"'))
+        DB::raw('servicios.nombre as "Nombre servicio"'),
+        DB::raw('pagos.tipoPago as "Medio pago"'),
+        DB::raw('servicios.costo as "Valor pagado"'))
        ->join('afiliaciones','afiliaciones.id','=','pagos.afiliacion_id')
        ->join('clientes', 'clientes.id', '=', 'afiliaciones.cliente_id')
        ->join('servicios', 'servicios.id', '=', 'afiliaciones.servicio_id')
@@ -41,7 +45,8 @@ class PagosController extends Controller
             DB::raw('clientes.di as Cedula'),
             DB::raw('servicios.id as "Id del servicio"'),
             DB::raw('servicios.nombre as "Nombre del servicio"'),
-            DB::raw('afiliaciones.fechaSiguientePago as "Fecha de siguiente pago"'))
+            DB::raw('afiliaciones.fechaSiguientePago as "Fecha de siguiente pago"'),
+            DB::raw('servicios.costo as "Valor a pagar"'))
         ->join('clientes', 'clientes.id', '=', 'afiliaciones.cliente_id')
         ->join('servicios', 'servicios.id', '=', 'afiliaciones.servicio_id')
         ->get();
@@ -63,6 +68,8 @@ class PagosController extends Controller
 
         $pago = new Pago;
         $pago->afiliacion_id = $request->afiliacion_id;
+        $pago->tipoPago = $request->tipoPago;
+        $pago->user_id = auth()->id();
         $this->calcularProximoPago($pago->afiliacion);
         $pago->save();
 
@@ -109,7 +116,7 @@ class PagosController extends Controller
 
         $pago = Pago::findOrFail($request->id);
         $pago->afiliacion_id = $request->afiliacion_id;
-        $pago->monto = $request->monto;
+        $pago->tipoPago = $request->tipoPago;
         $pago->save();
 
         return back()->with('success', 'Pago actualizado');

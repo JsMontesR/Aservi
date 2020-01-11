@@ -17,18 +17,37 @@
 <div class="card mb-3">
       <div class="card-body">
         <div class="table-responsive">
-          <h4 align="center">Cliente: {{$cliente}}</h4>
+          <h4 align="left">Fecha: {{$fechaActual}}</h4>
           <br>
-          <h4 align="center">{{$equipo}}</h4>
+          <h4 align="right">Hola: {{$horaActual}}</h4>
           <br>
-          <h4 align="center">Problema reportado: {{$problema}}</h4>
+          <h4 align="center">Recibo no. {{$numeroRecibo}}</h4>
           <br>
-          @if($notas != null)
-          <h4 align="center">Notas: {{$notas}}</h4>
+          <h4 align="center">Le atendió: {{$notas}}</h4>
           <br>
+          <h4 align="center">Tipo de pago: {{$tipoPago}}</h4>
+          <br>
+          <h4 align="center">Número de documento: {{$cc}}</h4>
+          <br>
+          <h4 align="center">Nombre: {{$nombre}}</h4>
+          <br>
+          @if($direccion != null)
+            <h4 align="center">Dirección: {{$direccion}}</h4>
+            <br>
           @endif
-          <h4 align="center">Fecha: {{$fecha}}</h4>
+          @if($telefono != null)
+            <h4 align="center">Teléfono: {{$telefono}}</h4>
+            <br>
+          @endif
+          @if($email != null)
+            <h4 align="center">Correo electrónico: {{$email}}</h4>
+            <br>
+          @endif
+          <h4 align="left">Producto: {{$producto}}</h4>
           <br>
+          <h4 align="left">Total: {{$valor}}</h4>
+          <br>
+          <h6 align="left">Gracias por su compra}</h4>
     </div>
   </div>
 </div>    

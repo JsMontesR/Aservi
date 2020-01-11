@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use DB;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use App\Afiliacion;
 
@@ -93,8 +94,12 @@ class AfiliacionesController extends Controller
     public function destroy(Request $request)
     {
         $request->validate($this->validationIdRule);
+        try {
+            Afiliacion::findOrFail($request->id)->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            throw ValidationException::withMessages(['id' => 'La afiliación no puede ser eliminada ya que existen pagos a su nombre',]);
+        }    
         
-        Afiliacion::findOrFail($request->id)->delete();
         return back()->with('success', 'Cliente eliminado');
     }
 }

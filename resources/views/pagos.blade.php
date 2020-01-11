@@ -79,6 +79,9 @@
                                                 document.getElementById('servicio_id').value = {!!json_encode($afiliacion->{'Id del servicio'})!!};
                                                 document.getElementById('nombreServicio').value = {!!json_encode($afiliacion->{'Nombre del servicio'})!!};
                                                 document.getElementById('fechaSiguientePago').value = {!!json_encode($afiliacion->{'Fecha de siguiente pago'})!!};
+                                                document.getElementById('valorPagado').value = "$ " + new Intl.NumberFormat('es-CO').format({!!json_encode($afiliacion->{'Valor a pagar'})!!});
+                                                document.getElementById('labelValor').innerHTML = "Valor a pagar:";
+                                                
                                             };
                                             var input = document.getElementById({!!json_encode($afiliacion->Id)!!}+"e");
                                             input.addEventListener('click',cambiar);
@@ -179,6 +182,44 @@
                     </div>
                     
                 </div>
+
+                <div class="form-group row">
+                <label class="col-md-4 col-form-label text-md-left">Tipo de pago:</label>
+
+                <div class="col-md-8">
+                    <select id="tipoPago" name="tipoPago" class="form-control @error('tipoPago') is-invalid @enderror" style="text-transform: capitalize" value="{{old('tipoPago')}}">
+                     
+                            <option value="Efectivo" selected="">Efectivo</option>
+                            <option value="Tarjeta">Tarjeta</option>
+
+                        <script type="text/javascript">
+                            var value = {!!json_encode(old('tipoPago'))!!};
+                            if(value != null){
+                                document.getElementById("tipoPago").value = {!!json_encode(old('tipoPago'))!!}
+                            }
+                        </script>
+                    </select>
+                    @error('tipoPago')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
+            </div>
+
+                <div class="form-group row">
+                    <label class="col-md-4 col-form-label text-md-left" id="labelValor">Valor pagado/Valor a pagar:</label>
+
+                    <div class="col-md-8">
+                        <input readonly="readonly" id="valorPagado" class="form-control @error('valorPagado') is-invalid @enderror" value="{{old('valorPagado')}}" name="valorPagado" required autocomplete>
+                        @error('valorPagado')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    
+                </div>
         </form>
 
         <div align="center">
@@ -230,6 +271,8 @@
                             document.getElementById('servicio_id').value = "";
                             document.getElementById('nombreServicio').value = "";
                             document.getElementById('fechaSiguientePago').value = "";
+                            document.getElementById('valorPagado').value = "";
+                            document.getElementById('labelValor').innerHTML = "Valor pagado/Valor a pagar:";
                         }
 
             </script>
@@ -280,6 +323,9 @@
                                                 document.getElementById('cedula').value = {!!json_encode($registro->Cedula)!!};
                                                 document.getElementById('servicio_id').value = {!!json_encode($registro->{'Id servicio'})!!};
                                                 document.getElementById('nombreServicio').value = {!!json_encode($registro->{'Nombre servicio'})!!};
+                                                document.getElementById('tipoPago').value = {!!json_encode($registro->{'Medio pago'})!!};
+                                                document.getElementById('valorPagado').value = "$ " + new Intl.NumberFormat('es-CO').format({!!json_encode($registro->{'Valor pagado'})!!});
+                                                document.getElementById('labelValor').innerHTML = "Valor pagado:";
 
                                             };
                                             var input = document.getElementById({!!json_encode($registro->Id)!!});
@@ -289,6 +335,7 @@
                                         @foreach ($registro as $key => $value) 
                                             
                                             <td>{{ $value }}</td>
+                                            
                                             
                                         @endforeach
                                         
