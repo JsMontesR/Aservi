@@ -13,55 +13,48 @@
 
 Route::get('/', function () {
     return view('home');
-});
+})->middleware('auth');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 
 ////CRUD Clientes
 
-Route::get('/clientes','ClientesController@index')->name('clientes');
-Route::post('/registrarClientes','ClientesController@store')->name('clientes.store');
-Route::post('/borrarClientes','ClientesController@destroy')->name('clientes.delete');
-Route::post('/actualizarClientes','ClientesController@update')->name('clientes.update');
+Route::get('/clientes','ClientesController@index')->name('clientes')->middleware('auth');
+Route::post('/registrarClientes','ClientesController@store')->name('clientes.store')->middleware('auth');
+Route::post('/borrarClientes','ClientesController@destroy')->name('clientes.delete')->middleware('auth');
+Route::post('/actualizarClientes','ClientesController@update')->name('clientes.update')->middleware('auth');
 
 ////CRUD Servicios
 
-Route::get('/servicios','ServiciosController@index')->name('servicios');
-Route::post('/registrarServicios','ServiciosController@store')->name('servicios.store');
-Route::post('/borrarServicios','ServiciosController@destroy')->name('servicios.delete');
-Route::post('/actualizarServicios','ServiciosController@update')->name('servicios.update');
+Route::get('/servicios','ServiciosController@index')->name('servicios')->middleware('auth');
+Route::post('/registrarServicios','ServiciosController@store')->name('servicios.store')->middleware('auth');
+Route::post('/borrarServicios','ServiciosController@destroy')->name('servicios.delete')->middleware('auth');
+Route::post('/actualizarServicios','ServiciosController@update')->name('servicios.update')->middleware('auth');
 
 ////CRUD Afiliaciones
 
-Route::get('/afiliaciones','AfiliacionesController@index')->name('afiliaciones');
-Route::post('/registrarAfiliaciones','AfiliacionesController@store')->name('afiliaciones.store');
-Route::post('/borrarAfiliaciones','AfiliacionesController@destroy')->name('afiliaciones.delete');
-Route::post('/actualizarAfiliaciones','AfiliacionesController@update')->name('afiliaciones.update');
+Route::get('/afiliaciones','AfiliacionesController@index')->name('afiliaciones')->middleware('auth');
+Route::post('/registrarAfiliaciones','AfiliacionesController@store')->name('afiliaciones.store')->middleware('auth');
+Route::post('/borrarAfiliaciones','AfiliacionesController@destroy')->name('afiliaciones.delete')->middleware('auth');
+Route::post('/actualizarAfiliaciones','AfiliacionesController@update')->name('afiliaciones.update')->middleware('auth');
 
 ////CRUD Pagos
 
-Route::get('/pagos','PagosController@index')->name('pagos');
-Route::post('/registrarPagos','PagosController@store')->name('pagos.store');
-Route::post('/borrarPagos','PagosController@destroy')->name('pagos.delete');
-Route::post('/actualizarPagos','PagosController@update')->name('pagos.update');
+Route::get('/pagos','PagosController@index')->name('pagos')->middleware('auth');
+Route::post('/registrarPagos','PagosController@store')->name('pagos.store')->middleware('auth');
+Route::post('/borrarPagos','PagosController@destroy')->name('pagos.delete')->middleware('auth');
+Route::post('/actualizarPagos','PagosController@update')->name('pagos.update')->middleware('auth');
+
+//Recibos
+
+Route::get('/recibo.pdf','PagosController@print')->name('recibo.pdf')->middleware('auth');
 
 ////Reportes
 
-Route::get('/reportes','ReportesController@index')->name('reportes');
-Route::get('/reporteEstado','ReportesController@reporteEstado')->name('reporteEstado');
+Route::get('/reportes','ReportesController@index')->name('reportes')->middleware('auth');
+Route::get('/reporteEstado','ReportesController@reporteEstado')->name('reporteEstado')->middleware('auth');
 
-Route::get('/reporteEstado.pdf','ReportesController@reporteEstadoPdf')->name('reporteEstado.pdf');
+Route::get('/reporteEstado.pdf','ReportesController@reporteEstadoPdf')->name('reporteEstado.pdf')->middleware('auth');

@@ -28,6 +28,7 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
+    @auth
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
@@ -101,6 +102,7 @@
       </div>
 
     </ul>
+    @endauth
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->

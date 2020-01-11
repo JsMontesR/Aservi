@@ -11,7 +11,7 @@ class ClientesController extends Controller
     public $validationRules = [
             'name' => 'required',
             'email' => 'required_if:rol,administrador|nullable|email',
-            'cedula' => 'nullable|integer|min:0',
+            'cedula' => 'required|integer|min:0',
             'telefonocelular' => 'nullable|integer|min:0',
             'telefonofijo' => 'nullable|integer|min:0',
         ];
