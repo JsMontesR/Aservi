@@ -135,4 +135,33 @@ class PagosController extends Controller
         Pago::findOrFail($request->id)->delete();
         return back()->with('success', 'Pago eliminado');
     }
+
+    /**
+     * Imprime un recibo
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function print(Request $request){
+        $nombre = "Asesoría en seguridad social";
+        $datosRecibo = "Teléfono: 2190753 - Celular: 310 544 9295";
+        $fechaActual = (new DateTime())->format('d/m/yy');
+        $horaActual = (new DateTime())->format('h:i:s');
+
+        $pago = Pago::find($request->id);
+
+        $numeroRecibo = $pago->id;
+        $usuario = $pago->user->name;
+        $tipoPago = $pago->tipoPago;
+        $cc = $pago->afiliacion->cliente->di;
+        $nombreCliente = $pago->afiliacion->cliente->nombre;
+        $direccion = $pago->afiliacion->cliente->direccion;
+        $telefono = $pago->afiliacion->cliente->telefonocelular;
+        $email = $pago->afiliacion->cliente->email;
+        $producto = $pago->afiliacion->servicio->nombre;
+        $valor = $pago->afiliacion->servicio->costo;
+
+        $pdf = \PDF::loadView('pdf.recibo',compact('nombre','datosRecibo','fechaActual','horaActual','numeroRecibo','usuario','tipoPago','cc','nombreCliente','direccion','telefono','email','producto','valor'));
+        return $pdf->stream('recibo.pdf');
+    }
 }

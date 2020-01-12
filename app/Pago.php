@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Afiliacion;
+use App\User;
 
 class Pago extends Model
 {
@@ -13,4 +14,9 @@ class Pago extends Model
     public function afiliacion(){
     	return $this->belongsTo(Afiliacion::class);
     }
+
+    public function user(){
+    	return $this->belongsTo(User::class);
+    }
+
 }

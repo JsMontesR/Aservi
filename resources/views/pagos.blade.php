@@ -237,6 +237,11 @@
             
             <input type="button" value="Eliminar" class="btn btn-danger" onclick= "eliminarPago()" />
             </div>
+
+            <br>
+            <div class="btn-group col-md">           
+            <input type="button" value="Ver impresión" class="btn btn-info" onclick= "imprimirPago()" />
+            </div>
              <script type="text/javascript">
                 
             
@@ -274,6 +279,12 @@
                             document.getElementById('valorPagado').value = "";
                             document.getElementById('labelValor').innerHTML = "Valor pagado/Valor a pagar:";
                         }
+
+                function imprimirPago(){
+
+                    document.form1.action = '{{ route('recibo.pdf') }}';
+                    document.form1.submit();
+                }
 
             </script>
 

@@ -91,14 +91,4 @@ class ServiciosController extends Controller
        
         return redirect()->route('servicios')->with('success', 'Servicio eliminado');
     }
-
-    public function print(Request $request){
-        $nombre = "Asesoría en seguridad social\nTeléfono 2190753\nCelular 310 544 9295";
-        $fechaActual = (new DateTime())->format('d/m/yy');
-        $horaActual = (new DateTime())->format('hh:mm');
-        
-        
-        $pdf = \PDF::loadView('pdf.servicio',compact('nombre','cliente','fecha','problema','notas','equipo'));
-        return $pdf->stream('servicio.pdf');
-    }
 }

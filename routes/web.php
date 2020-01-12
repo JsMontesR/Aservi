@@ -50,7 +50,7 @@ Route::post('/actualizarPagos','PagosController@update')->name('pagos.update')->
 
 //Recibos
 
-Route::get('/recibo.pdf','PagosController@print')->name('recibo.pdf')->middleware('auth');
+Route::post('/recibo.pdf','PagosController@print')->name('recibo.pdf')->middleware('auth');
 
 ////Reportes
 

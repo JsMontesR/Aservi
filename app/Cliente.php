@@ -11,6 +11,6 @@ class Cliente extends Model
     protected $fillable = ['id','di','nombre','direccion','email','telefonocelular','telefonofijo'];
 
     public function afiliaciones(){
-    	return $this->belongsToMany(Afiliacion::class,'afiliaciones','id','cliente_id');
+    	return $this->hasMany(Afiliacion::class,'afiliaciones','id','cliente_id');
     }
 }

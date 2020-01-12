@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Pago;
 use App\Servicio;
+use App\Cliente;
 
 class Afiliacion extends Model
 {
@@ -14,6 +15,10 @@ class Afiliacion extends Model
 
     public function pagos(){
     	return $this->hasMany(Pago::class);
+    }
+
+    public function cliente(){
+    	return $this->belongsTo(Cliente::class);
     }
 
     public function servicio(){
