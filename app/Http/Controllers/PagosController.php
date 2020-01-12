@@ -143,6 +143,7 @@ class PagosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function print(Request $request){
+        $request->validate($this->validationIdRule);
         $nombre = "Asesoría en seguridad social";
         $fijo = "Teléfono: 2190753";
         $celular = "Celular: 310 544 9295";

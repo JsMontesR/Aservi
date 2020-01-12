@@ -1,7 +1,7 @@
 
 
 <style>
-    @page { size: 200pt 230pt ;margin: 20px;}
+    @page { size: 73mm 600pt ;margin: 5px;}
 </style>
 <!--
 <div align="center">
