@@ -1,23 +1,24 @@
 
-<!-- Custom styles for this template-->
-<link href="{{asset('css/sb-admin-2.css')}}" rel="stylesheet">
 
+<style>
+    @page { size: 200pt 230pt ;margin: 20px;}
+</style>
+<!--
 <div align="center">
     <img src="favicon.png" class="img-fluid" alt="Responsive image">
 </div>
+-->
 
-<h2 align="center">{{$nombre}}</h2>
-<h2 align="center">{{$datosRecibo}}</h2>
+<div align="center" style="font-size:12px">{{$nombre}}</div>
+<div align="center" style="font-size:12px">{{$fijo}}</div>
+<div align="center" style="font-size:12px">{{$celular}}</div>
 <br>
 
 
-<h4 align="left">
+<div align="left" style="font-size:12px" >
   <label>Fecha: {{$fechaActual}}</label>
   <label>Hora: {{$horaActual}}</label>
-</h4>
-
-<h4 align="left">
-
+  <br>
   <label> Recibo no. {{$numeroRecibo}} </label>
   <br>
 
@@ -59,11 +60,13 @@
   <label> Total: $ {{$valor}} </label>
   <br>
 
-</h4>
+</div>
 
-<h4 align="center">
+<br>
+
+<div align="center" style="font-size:12px">
   <label> Gracias por su compra</label>
-</h4>
+</div>
 
 
 

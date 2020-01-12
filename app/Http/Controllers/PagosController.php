@@ -144,7 +144,8 @@ class PagosController extends Controller
      */
     public function print(Request $request){
         $nombre = "Asesoría en seguridad social";
-        $datosRecibo = "Teléfono: 2190753 - Celular: 310 544 9295";
+        $fijo = "Teléfono: 2190753";
+        $celular = "Celular: 310 544 9295";
         $fechaActual = (new DateTime())->format('d/m/yy');
         $horaActual = (new DateTime())->format('h:i:s');
 
@@ -161,7 +162,7 @@ class PagosController extends Controller
         $producto = $pago->afiliacion->servicio->nombre;
         $valor = $pago->afiliacion->servicio->costo;
 
-        $pdf = \PDF::loadView('pdf.recibo',compact('nombre','datosRecibo','fechaActual','horaActual','numeroRecibo','usuario','tipoPago','cc','nombreCliente','direccion','telefono','email','producto','valor'));
+        $pdf = \PDF::loadView('pdf.recibo',compact('nombre','fijo','celular','fechaActual','horaActual','numeroRecibo','usuario','tipoPago','cc','nombreCliente','direccion','telefono','email','producto','valor'));
         return $pdf->stream('recibo.pdf');
     }
 }
