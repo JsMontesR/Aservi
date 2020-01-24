@@ -7,13 +7,13 @@
         <h6 class="m-0 font-weight-bold text-primary">Filtros</h6>
     </div>
         <div class="card-body">
-            <form id="form1" name="form1" method="GET" action="{{route('reporteEstado')}}">
+            <form id="form1" name="form1" method="GET" onsubmit="return false">
 
 	        <div class="form-group row">
 	            <label class="col-md-4 col-form-label text-md-left">Empresa:</label>
 
 	            <div class="col-md-8">
-	                <select id="empresa_id" name="empresa_id" class="form-control @error('empresa_id') is-invalid @enderror" style="text-transform: capitalize">
+	                <select id="empresa_id" name="empresa_id" class="form-control @error('empresa_id') is-invalid @enderror" style="text-transform: capitalize" value="<?php echo isset($_POST['empresa_id']) ? $_POST['empresa_id'] : '' ?>">
 	                    @foreach($empresas as $empresa)
 	                        <option id={{$empresa->Id}} value={{$empresa->Id}}>{{$empresa->Nombre}}</option>
 	                    @endforeach
@@ -31,43 +31,38 @@
                            
             <br>
             <div class="btn-group col-md">
-           
-            
             <input type="button" value="Filtrar" class="btn btn-info" onclick= "filtrar()" />
+			<input type="button" value="Ver impresión" class="btn btn-success" onclick= "filtrarPdf()" />
+			<br>
+            
             </div>
-                 <script type="text/javascript">
-                    
-               
-                    function filtrar(){
-                        	var valor = document.getElementById("empresa_id").value;
-                            document.form1.submit();
-                            document.getElementById(valor).selected = true;
-                        
-                    }
-
-                    
-
-                </script>
+                 
 
 
             </div>
 
-           </form>  
+           </form> 
+
+     
     </div>
 </div>
 
 @include('pdf.reporte')
 
-@if(!$registros->isEmpty())
+<script type="text/javascript">
+                    
+               
+    function filtrar(){
+    		document.form1.action = '{{ route('reporteEstado') }}'; 
+            document.form1.submit();   
+    }
 
-    <div align="center">
-        <a href="{{ route($rutapdf) }}" class="btn btn-sm btn-primary btndiag">
-                Ver impresión
-        </a>
-        
-    </div>
-    <br>
+    function filtrarPdf(){
+    		document.form1.action = '{{ route('reporteEstado.pdf') }}'; 
+            document.form1.submit();   
+    }
 
-@endif
+</script>
+
 @endsection
 

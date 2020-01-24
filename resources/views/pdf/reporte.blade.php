@@ -53,7 +53,7 @@
     </div>
   </div>
 </div>    
- <h5 align="center">Fecha y hora actual del reporte {{(new DateTime())->format('d/m/yy')}}</h5>
+ <h5 align="center">Fecha y hora actual del reporte {{(new DateTime())->format('d/m/yy h:i:s')}}</h5>
  <br>
 
 

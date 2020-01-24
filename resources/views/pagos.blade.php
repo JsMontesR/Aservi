@@ -79,7 +79,7 @@
                                                 document.getElementById('servicio_id').value = {!!json_encode($afiliacion->{'Id del servicio'})!!};
                                                 document.getElementById('nombreServicio').value = {!!json_encode($afiliacion->{'Nombre del servicio'})!!};
                                                 document.getElementById('fechaSiguientePago').value = {!!json_encode($afiliacion->{'Fecha de siguiente pago'})!!};
-                                                document.getElementById('valorPagado').value = "$ " + new Intl.NumberFormat('es-CO').format({!!json_encode($afiliacion->{'Valor a pagar'})!!});
+                                                document.getElementById('valorPagado').value = {!!json_encode($afiliacion->{'Valor a pagar'})!!};
                                                 document.getElementById('labelValor').innerHTML = "Valor a pagar:";
                                                 
                                             };
@@ -208,10 +208,10 @@
             </div>
 
                 <div class="form-group row">
-                    <label class="col-md-4 col-form-label text-md-left" id="labelValor">Pago externo:</label>
+                    <label class="col-md-4 col-form-label text-md-left" >Pago externo:</label>
 
                     <div class="col-md-8">
-                        <input type="checkbox" id="externo" class="form-control" value="{{old('externo')}}" name="externo" required autocomplete>
+                        <input type="checkbox" id="externo" class="form-control" value="{{old('externo')}}" name="externo" required autocomplete onclick="deshabilitarMonto()">
                     </div>
                 </div>
 
@@ -294,6 +294,18 @@
                     document.form1.submit();
                 }
 
+                var valorPagado;
+
+                function deshabilitarMonto(){
+                    var valor = document.getElementById("externo").checked;
+                    if(valor){
+                        valorPagado = document.getElementById("valorPagado").value;
+                        document.getElementById("valorPagado").value = 0;
+                    }else{
+                        document.getElementById("valorPagado").value = valorPagado;
+                    }
+                }
+
             </script>
 
 
@@ -341,7 +353,7 @@
                                                 document.getElementById('cedula').value = {!!json_encode($registro->Cedula)!!};
                                                 document.getElementById('nombreServicio').value = {!!json_encode($registro->{'Nombre servicio'})!!};
                                                 document.getElementById('tipoPago').value = {!!json_encode($registro->{'Medio pago'})!!};
-                                                document.getElementById('valorPagado').value = "$ " + new Intl.NumberFormat('es-CO').format({!!json_encode($registro->{'Valor pagado'})!!});
+                                                document.getElementById('valorPagado').value = {!!json_encode($registro->{'Valor pagado'})!!};
                                                 document.getElementById('labelValor').innerHTML = "Valor pagado:";
 
                                             };

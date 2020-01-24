@@ -25,27 +25,33 @@ class ReportesController extends Controller
 
     public function reporteEstado(Request $request){
 
-        if($request->empresa_id != null){
-            $request->validate($this->validationRules);
-            $empresa = Empresa::find($request->empresa_id);
-            $nombrereporte = "Estado clientes " . $empresa->nombre;
-        }else{
-            $nombrereporte = "Estado clientes";
-        }
-
+        $request->session()->reflash();
+                
+        $nombrereporte = $this->nombreReporte($request);
         $rutapdf = 'reporteEstado.pdf';
 
         $empresas = DB::table('empresas')->select(
             DB::raw('id as Id'),
             DB::raw('nombre as Nombre'))->get();
-   
+        
+        $request->session()->flash('',$request->empresa_id);
     
          return view('reporteweb',["registros" => $this->consultar('Estado clientes',$request->empresa_id), "nombrereporte" => $nombrereporte, "rutapdf" => $rutapdf, "empresas" => $empresas]);
     }
 
-    public function reporteEstadoPdf($empresa_id = null){
-		$nombrereporte = "Estado clientes";
-        $registros = $this->consultar($nombrereporte,$empresa_id);
+    public function nombreReporte($request){
+        if($request->empresa_id != null){
+            $request->validate($this->validationRules);
+            $empresa = Empresa::find($request->empresa_id);
+             return "Estado clientes " . $empresa->nombre;
+        }else{
+            return "Estado clientes";
+        }
+    }
+
+    public function reporteEstadoPdf(Request $request){
+		$nombrereporte = $this->nombreReporte($request);
+        $registros = $this->consultar('Estado clientes',$request->empresa_id);
 
         $pdf = \PDF::loadView('pdf.reporte',compact('registros','nombrereporte'));
         return $pdf->stream('reporte.pdf');
@@ -59,13 +65,15 @@ class ReportesController extends Controller
                     DB::raw('clientes.di AS Cédula'),
                     DB::raw('clientes.nombre AS "Nombre del cliente"'),
                     DB::raw('servicios.nombre AS "Nombre del servicio"'),
+                    DB::raw('empresas.nombre AS "Empresa"'),
                     DB::raw('afiliaciones.fechaSiguientePago AS "Fecha límite de pago"'),
                     DB::raw('IF(afiliaciones.fechaSiguientePago IS NULL,
                     "Sin pagos registrados",
                     IF((DATE_FORMAT(afiliaciones.fechaSiguientePago,"%Y-%m-%d 00:00:00") < DATE_FORMAT(NOW(),"%Y-%m-%d 00:00:00")),
                     CONCAT("En mora por ", DATEDIFF(CURDATE(), afiliaciones.fechaSiguientePago), " días"),"Al día")) AS Estado'))
                 ->join('afiliaciones','afiliaciones.cliente_id','=','clientes.id')
-                ->join('servicios','servicios.id','=','afiliaciones.servicio_id');
+                ->join('servicios','servicios.id','=','afiliaciones.servicio_id')
+                ->join('empresas','empresas.id','=','afiliaciones.empresa_id');
             if($filtro != null){
                 return $consulta->where('afiliaciones.empresa_id',$filtro)->get();
             }else{
