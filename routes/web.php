@@ -55,6 +55,5 @@ Route::post('/recibo.pdf','PagosController@print')->name('recibo.pdf')->middlewa
 ////Reportes
 
 Route::get('/reportes','ReportesController@index')->name('reportes')->middleware('auth');
-Route::get('/reporteEstado','ReportesController@reporteEstado')->name('reporteEstado')->middleware('auth');
-
-Route::get('/reporteEstado.pdf','ReportesController@reporteEstadoPdf')->name('reporteEstado.pdf')->middleware('auth');
+Route::get('/reporteEstado/{empresa_id?}','ReportesController@reporteEstado')->name('reporteEstado')->middleware('auth');
+Route::get('/reporteEstado.pdf/{empresa_id?}','ReportesController@reporteEstadoPdf')->name('reporteEstado.pdf')->middleware('auth');

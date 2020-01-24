@@ -38,7 +38,7 @@
                     <div class="col-md-8">
                         <select id="empresa_id" name="empresa_id" class="form-control @error('empresa_id') is-invalid @enderror" style="text-transform: capitalize" value="{{old('empresa_id')}}">
                             @foreach($empresas as $empresa)
-                                <option value={{$empresa->id}}>{{$empresa->Nombre}}</option>
+                                <option value={{$empresa->Id}}>{{$empresa->Nombre}}</option>
                             @endforeach
                             <script type="text/javascript">
                                 var value = {!!json_encode(old('empresa_id'))!!};
@@ -275,6 +275,9 @@
                             document.getElementById('id').value = "";
                             document.getElementById('cliente_id').value = "";
                             document.getElementById('servicio_id').value = "";
+                            document.getElementById('nombreCliente').value = "";
+                            document.getElementById('nombreServicio').value = "";
+                            document.getElementById('registrar').disabled = false;
                         }
 
             </script>
@@ -299,9 +302,9 @@
                                               <tr>
                                                 <th>Seleccionar</th>
                                                 @foreach ($afiliaciones->get(0) as $key => $value) 
-                                                   
+                                                    @if($key != 'Id empresa')
                                                     <th>{{$key}}</th>
-                                                    
+                                                    @endif
                                                 @endforeach
                                                 
                                               </tr>       
@@ -324,6 +327,7 @@
                                                             document.getElementById('servicio_id').value = {!!json_encode($registro->{'Id servicio'})!!};
                                                             document.getElementById('nombreCliente').value = {!!json_encode($registro->{'Nombre cliente'})!!};
                                                             document.getElementById('nombreServicio').value = {!!json_encode($registro->{'Nombre servicio'})!!};
+                                                            document.getElementById('empresa_id').value = {!!json_encode($registro->{'Id empresa'})!!};
 
                                                         };
                                                         var input = document.getElementById({!!json_encode($registro->Id)!!});
@@ -331,8 +335,9 @@
                                                         
                                                     </script>
                                                     @foreach ($registro as $key => $value) 
-                                                        
+                                                        @if($key != 'Id empresa')
                                                         <td>{{ $value }}</td>
+                                                        @endif
                                                         
                                                     @endforeach
                                                     
@@ -344,8 +349,9 @@
                                               <tr>
                                                 <th>Seleccionar</th>
                                                 @foreach ($afiliaciones[0] as $key => $value) 
-                                                    
+                                                    @if($key != 'Id empresa')
                                                     <th>{{$key}}</th>
+                                                    @endif
                                                     
                                                 @endforeach
                                                 

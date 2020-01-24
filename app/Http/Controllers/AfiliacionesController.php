@@ -11,6 +11,7 @@ class AfiliacionesController extends Controller
     public $validationRules = [
             'cliente_id' => 'required|integer|min:0',
             'servicio_id' => 'required|integer|min:0',
+            'empresa_id' => 'required|integer|min:0',
         ];
 
     public $validationIdRule = ['id' => 'required|integer|min:0'];
@@ -29,9 +30,12 @@ class AfiliacionesController extends Controller
         DB::raw('clientes.nombre as "Nombre cliente"'),
         DB::raw('cliente_id as "Id servicio"'),
         DB::raw('servicios.nombre as "Nombre servicio"'),
+        DB::raw('empresas.id as "Id empresa"'),
+        DB::raw('empresas.nombre as "Empresa"'),
         DB::raw('afiliaciones.fechaSiguientePago as "Fecha de siguiente pago"'))
        ->join('clientes', 'clientes.id', '=', 'afiliaciones.cliente_id')
        ->join('servicios', 'servicios.id', '=', 'afiliaciones.servicio_id')
+       ->join('empresas', 'empresas.id', '=', 'afiliaciones.empresa_id')
        ->get();
 
         $clientes = DB::table('clientes')->select(

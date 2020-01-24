@@ -69,6 +69,8 @@ class PagosController extends Controller
         $pago->afiliacion_id = $request->afiliacion_id;
         $pago->tipoPago = $request->tipoPago;
         $pago->user_id = auth()->id();
+        $pago->externo = $request->has('externo'); 
+        
         $this->calcularProximoPago($pago->afiliacion);
         $pago->save();
 
@@ -116,6 +118,7 @@ class PagosController extends Controller
         $pago = Pago::findOrFail($request->id);
         $pago->afiliacion_id = $request->afiliacion_id;
         $pago->tipoPago = $request->tipoPago;
+        $pago->externo = $request->has('externo');
         $pago->save();
 
         return back()->with('success', 'Pago actualizado');
