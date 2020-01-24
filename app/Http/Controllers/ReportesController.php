@@ -38,10 +38,9 @@ class ReportesController extends Controller
         if(!strcmp($tipo,"Estado clientes")){
             
          return DB::table('clientes')
-                    ->select(DB::raw('afiliaciones.id AS "Id afiliación"'),
+                    ->select(
                     	DB::raw('clientes.di AS Cédula'),
                     	DB::raw('clientes.nombre AS "Nombre del cliente"'),
-						DB::raw('servicios.id AS "Id del servicio"'),
 						DB::raw('servicios.nombre AS "Nombre del servicio"'),
 						DB::raw('afiliaciones.fechaSiguientePago AS "Fecha límite de pago"'),
 						DB::raw('IF(afiliaciones.fechaSiguientePago IS NULL,

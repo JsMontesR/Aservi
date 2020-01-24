@@ -33,6 +33,29 @@
                 </div>
 
                 <div class="form-group row">
+                    <label class="col-md-4 col-form-label text-md-left">Empresa a la cual se desea afiliar:</label>
+
+                    <div class="col-md-8">
+                        <select id="empresa_id" name="empresa_id" class="form-control @error('empresa_id') is-invalid @enderror" style="text-transform: capitalize" value="{{old('empresa_id')}}">
+                            @foreach($empresas as $empresa)
+                                <option value={{$empresa->id}}>{{$empresa->Nombre}}</option>
+                            @endforeach
+                            <script type="text/javascript">
+                                var value = {!!json_encode(old('empresa_id'))!!};
+                                if(value != null){
+                                    document.getElementById("empresa_id").value = {!!json_encode(old('empresa_id'))!!}
+                                }
+                            </script>
+                        </select>
+                        @error('empresa_id')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="form-group row">
                     <label class="col-md-4 col-form-label text-md-left">Cliente:</label>
 
                     <div class="col-md-8">

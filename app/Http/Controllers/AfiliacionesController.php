@@ -42,9 +42,13 @@ class AfiliacionesController extends Controller
         $servicios = DB::table('servicios')->select(
             DB::raw('id as Id'),
             DB::raw('nombre as "Nombre del servicio"'))->get();
+
+        $empresas = DB::table('empresas')->select(
+            DB::raw('id as Id'),
+            DB::raw('nombre as Nombre'))->get();
         
 
-        return view('afiliaciones',compact('afiliaciones','clientes','servicios'));
+        return view('afiliaciones',compact('afiliaciones','clientes','servicios','empresas'));
     }
 
     /**
@@ -61,6 +65,7 @@ class AfiliacionesController extends Controller
         $afiliacion = new Afiliacion;
         $afiliacion->cliente_id = $request->cliente_id;
         $afiliacion->servicio_id = $request->servicio_id;
+        $afiliacion->empresa_id = $request->empresa_id;
         $afiliacion->save();
 
         return back()->with('success', 'Afiliación creada');
@@ -80,6 +85,7 @@ class AfiliacionesController extends Controller
         $afiliacion = Afiliacion::findOrFail($request->id);
         $afiliacion->cliente_id = $request->cliente_id;
         $afiliacion->servicio_id = $request->servicio_id;
+        $afiliacion->empresa_id = $request->empresa_id;
         $afiliacion->save();
 
         return back()->with('success', 'Afiliación actualizada');

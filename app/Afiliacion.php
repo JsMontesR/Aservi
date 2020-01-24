@@ -25,4 +25,8 @@ class Afiliacion extends Model
     	return $this->belongsTo(Servicio::class);
     }
 
+    public function empresa(){
+    	return $this->belongsTo(Empresa::class);
+    }
+
 }

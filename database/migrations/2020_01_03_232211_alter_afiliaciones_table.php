@@ -17,9 +17,11 @@ class AlterAfiliacionesTable extends Migration
 
             $table->unsignedBigInteger('cliente_id');
             $table->unsignedBigInteger('servicio_id');
+            $table->unsignedBigInteger('empresa_id');
 
             $table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('restrict');
             $table->foreign('servicio_id')->references('id')->on('servicios')->onDelete('restrict');
+            $table->foreign('empresa_id')->references('id')->on('empresas')->onDelete('restrict');
 
         });
 
@@ -40,6 +42,8 @@ class AlterAfiliacionesTable extends Migration
             $table->dropForeign(['servicio_id']);
             $table->dropColumn('servicio_id'); 
 
+            $table->dropForeign(['empresa_id']);
+            $table->dropColumn('empresa_id'); 
         });
     }
 }

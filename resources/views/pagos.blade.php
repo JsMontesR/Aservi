@@ -329,10 +329,8 @@
                                             var cambiar = function(){
                                                 document.getElementById('registrar').disabled = true;
                                                 document.getElementById('id').value = {!!json_encode($registro->Id)!!};
-                                                document.getElementById('afiliacion_id').value = {!!json_encode($registro->{'Id afiliacion'})!!};
                                                 document.getElementById('nombreCliente').value = {!!json_encode($registro->{'Nombre cliente'})!!};
                                                 document.getElementById('cedula').value = {!!json_encode($registro->Cedula)!!};
-                                                document.getElementById('servicio_id').value = {!!json_encode($registro->{'Id servicio'})!!};
                                                 document.getElementById('nombreServicio').value = {!!json_encode($registro->{'Nombre servicio'})!!};
                                                 document.getElementById('tipoPago').value = {!!json_encode($registro->{'Medio pago'})!!};
                                                 document.getElementById('valorPagado').value = "$ " + new Intl.NumberFormat('es-CO').format({!!json_encode($registro->{'Valor pagado'})!!});
