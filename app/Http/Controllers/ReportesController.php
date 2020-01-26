@@ -162,12 +162,13 @@ class ReportesController extends Controller
                 ->join('servicios','servicios.id','=','afiliaciones.servicio_id')
                 ->where('pagos.externo',0);
 
+        $this->filtrarEmpresa($consulta,$request);
         $this->filtrarFechasIngresos($consulta,$request);
 
         
         $valor = $consulta->select(DB::raw('SUM(precio) as Total'))->get()[0]->Total;
         if($valor != null && $valor > 0){
-            return "Total de ingresos $" . valor ;
+            return "Total de ingresos $" . $valor ;
         }else{
             return "No se registraron ingresos";
         }
