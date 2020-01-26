@@ -27,11 +27,14 @@ class AfiliacionesController extends Controller
        $afiliaciones = DB::table('afiliaciones')->select(
         DB::raw('afiliaciones.id as Id'),
         DB::raw('cliente_id as "Id cliente"'),
-        DB::raw('clientes.nombre as "Nombre cliente"'),
+        DB::raw('clientes.di as "Cedula cliente afiliado"'),
+        DB::raw('clientes.nombre as "Nombre cliente afiliado"'),
         DB::raw('cliente_id as "Id servicio"'),
         DB::raw('servicios.nombre as "Nombre servicio"'),
         DB::raw('empresas.id as "Id empresa"'),
         DB::raw('empresas.nombre as "Empresa"'),
+        DB::raw('servicios.precio as "Tarifa"'),
+        DB::raw('IF(afiliaciones.activo,"Activo","Inactivo") as "Estado"'),
         DB::raw('afiliaciones.fechaSiguientePago as "Fecha de siguiente pago"'))
        ->join('clientes', 'clientes.id', '=', 'afiliaciones.cliente_id')
        ->join('servicios', 'servicios.id', '=', 'afiliaciones.servicio_id')
@@ -40,8 +43,9 @@ class AfiliacionesController extends Controller
 
         $clientes = DB::table('clientes')->select(
             DB::raw('id as Id'),
-            DB::raw('nombre as "Nombre del cliente"'),
-            DB::raw('di as Cedula'))->get();
+            DB::raw('di as Cedula'),
+            DB::raw('nombre as "Nombre del cliente"')
+            )->get();
 
         $servicios = DB::table('servicios')->select(
             DB::raw('id as Id'),
@@ -70,6 +74,7 @@ class AfiliacionesController extends Controller
         $afiliacion->cliente_id = $request->cliente_id;
         $afiliacion->servicio_id = $request->servicio_id;
         $afiliacion->empresa_id = $request->empresa_id;
+        $afiliacion->activo = $request->has('activo');
         $afiliacion->save();
 
         return back()->with('success', 'Afiliación creada');
@@ -90,6 +95,7 @@ class AfiliacionesController extends Controller
         $afiliacion->cliente_id = $request->cliente_id;
         $afiliacion->servicio_id = $request->servicio_id;
         $afiliacion->empresa_id = $request->empresa_id;
+        $afiliacion->activo = $request->has('activo');
         $afiliacion->save();
 
         return back()->with('success', 'Afiliación actualizada');
@@ -110,6 +116,6 @@ class AfiliacionesController extends Controller
             throw ValidationException::withMessages(['id' => 'La afiliación no puede ser eliminada ya que existen pagos a su nombre',]);
         }    
         
-        return back()->with('success', 'Cliente eliminado');
+        return back()->with('success', 'Afiliación eliminada');
     }
 }

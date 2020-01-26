@@ -174,14 +174,18 @@
 
                     <div class="card mb-3">     
                           <div class="card-body">
+                            @if(!$servicios->isEmpty())
                             <div class="table-responsive">
+
                               <table class="table table-bordered" data-name="my_table" width="100%" cellspacing="0">
-                                @if(!$servicios->isEmpty())
+                                
                                         <thead>
                                           <tr>
                                             <th>Seleccionar</th>
                                             @foreach ($servicios->get(0) as $key => $value) 
-                                                <th>{{$key}}</th>
+                                
+                                                    <th>{{$key}}</th>
+                                              
                                             @endforeach
                                             
                                           </tr>       
@@ -205,8 +209,10 @@
                                                     input.addEventListener('click',cambiar);
                                                     
                                                 </script>
-                                                @foreach ($servicios[0] as $key => $value) 
-                                                    <td>{{ $servicio->{$key} }}</td>
+                                                @foreach ($servicio as $key => $value) 
+                                                        
+                                                        <td>{{ $value }}</td>
+                                                        
                                                 @endforeach
                                             </tr>
 
@@ -216,19 +222,35 @@
                                           <tr>
                                             <th>Seleccionar</th>
                                             @foreach ($servicios[0] as $key => $value) 
-                                                <th>{{$key}}</th>
+
+                                                    <th>{{$key}}</th>
+
                                             @endforeach
                                           </tr>
                                         </tfoot>
-                                @else
-                                  <h3 align="center">No hay servicios disponibles, intentelo más tarde</h3>
-                                @endif
+                                
                               </table>
-                              
+                              </div>
+                              @else
+                                  <h3 align="center">No hay servicios disponibles, intentelo más tarde</h3>
+                              @endif
 
-                            </div>
+                            
                           </div>
                         </div> 
+
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-md-left" >Activo:</label>
+
+                            <div class="col-md-8">
+                                <input type="checkbox" id="activo" class="form-control" value="{{old('activo')}}" name="activo" checked="true">
+                                @error('activo')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
         </form>
 
         <div align="center">
@@ -302,7 +324,7 @@
                                               <tr>
                                                 <th>Seleccionar</th>
                                                 @foreach ($afiliaciones->get(0) as $key => $value) 
-                                                    @if($key != 'Id empresa')
+                                                    @if($key != 'Id empresa' && $key != "Id cliente" && $key != "Id servicio")
                                                     <th>{{$key}}</th>
                                                     @endif
                                                 @endforeach
@@ -325,9 +347,10 @@
                                                             document.getElementById('id').value = {!!json_encode($registro->Id)!!};
                                                             document.getElementById('cliente_id').value = {!!json_encode($registro->{'Id cliente'})!!};
                                                             document.getElementById('servicio_id').value = {!!json_encode($registro->{'Id servicio'})!!};
-                                                            document.getElementById('nombreCliente').value = {!!json_encode($registro->{'Nombre cliente'})!!};
+                                                            document.getElementById('nombreCliente').value = {!!json_encode($registro->{'Nombre cliente afiliado'})!!};
                                                             document.getElementById('nombreServicio').value = {!!json_encode($registro->{'Nombre servicio'})!!};
                                                             document.getElementById('empresa_id').value = {!!json_encode($registro->{'Id empresa'})!!};
+                                                            document.getElementById('activo').checked = {!!json_encode($registro->{'Estado'})!!} == "Activo" ? true : false;
 
                                                         };
                                                         var input = document.getElementById({!!json_encode($registro->Id)!!});
@@ -335,8 +358,8 @@
                                                         
                                                     </script>
                                                     @foreach ($registro as $key => $value) 
-                                                        @if($key != 'Id empresa')
-                                                        <td>{{ $value }}</td>
+                                                        @if($key != 'Id empresa' && $key != "Id cliente" && $key != "Id servicio")
+                                                        <td>{{$value}}</th>
                                                         @endif
                                                         
                                                     @endforeach
@@ -349,7 +372,7 @@
                                               <tr>
                                                 <th>Seleccionar</th>
                                                 @foreach ($afiliaciones[0] as $key => $value) 
-                                                    @if($key != 'Id empresa')
+                                                    @if($key != 'Id empresa' && $key != "Id cliente" && $key != "Id servicio")
                                                     <th>{{$key}}</th>
                                                     @endif
                                                     

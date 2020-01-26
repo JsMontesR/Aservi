@@ -49,7 +49,7 @@ class PagosController extends Controller
             DB::raw('afiliaciones.fechaSiguientePago as "Fecha de siguiente pago"'),
             DB::raw('servicios.precio as "Valor a pagar"'))
         ->join('clientes', 'clientes.id', '=', 'afiliaciones.cliente_id')
-        ->join('servicios', 'servicios.id', '=', 'afiliaciones.servicio_id')
+        ->join('servicios', 'servicios.id', '=', 'afiliaciones.servicio_id')->where('afiliaciones.activo',1)
         ->get();
         
 

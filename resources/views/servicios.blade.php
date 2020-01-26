@@ -83,6 +83,19 @@
                 </div>
             </div>
 
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label text-md-left">Precio:</label>
+
+                <div class="col-md-8">
+                    <input id="precio" type="number" class="form-control @error('precio') is-invalid @enderror" value="{{old('precio')}}" name="precio" required autocomplete="precio">
+                    @error('precio')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
+            </div>
+
         </form>
 
         <div align="center">   
