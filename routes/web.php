@@ -55,5 +55,13 @@ Route::post('/recibo.pdf','PagosController@print')->name('recibo.pdf')->middlewa
 ////Reportes
 
 Route::get('/reportes','ReportesController@index')->name('reportes')->middleware('auth');
+
+////Reportes estado clientes
+
 Route::get('/reporteEstado/{empresa_id?}','ReportesController@reporteEstado')->name('reporteEstado')->middleware('auth');
 Route::get('/reporteEstado.pdf/{empresa_id?}','ReportesController@reporteEstadoPdf')->name('reporteEstado.pdf')->middleware('auth');
+
+////Reportes ingresos 
+
+Route::get('/reporteIngresos/{fechaInicio?}/{fechaFin?}','ReportesController@reporteIngresos')->name('reporteIngresos')->middleware('auth');
+Route::get('/reporteIngresos.pdf/{fechaInicio?}/{fechaFin?}','ReportesController@reporteIngresosPdf')->name('reporteIngresos.pdf')->middleware('auth');

@@ -13,7 +13,7 @@
 	            <label class="col-md-4 col-form-label text-md-left">Empresa:</label>
 
 	            <div class="col-md-8">
-	                <select id="empresa_id" name="empresa_id" class="form-control @error('empresa_id') is-invalid @enderror" style="text-transform: capitalize" value="<?php echo isset($_POST['empresa_id']) ? $_POST['empresa_id'] : '' ?>">
+	                <select id="empresa_id" name="empresa_id" class="form-control @error('empresa_id') is-invalid @enderror" style="text-transform: capitalize">
 	                    @foreach($empresas as $empresa)
 	                        <option id={{$empresa->Id}} value={{$empresa->Id}}>{{$empresa->Nombre}}</option>
 	                    @endforeach

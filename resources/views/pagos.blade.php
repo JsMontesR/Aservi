@@ -328,8 +328,9 @@
                                   <tr>
                                     <th>Seleccionar</th>
                                     @foreach ($pagos->get(0) as $key => $value) 
-                                       
+                                       @if($key != 'Id afiliacion' && $key != 'Valor a pagar' )
                                         <th>{{$key}}</th>
+                                        @endif
                                         
                                     @endforeach
                                     
@@ -337,6 +338,7 @@
                                 </thead>
                                 <tbody>
                                    @foreach($pagos as $registro)
+
                                     <tr>
                                         <td align="center">
                                             <a id="{{$registro->Id}}" class="btn btn-secondary text-white" href="#page-top">
@@ -354,7 +356,11 @@
                                                 document.getElementById('nombreServicio').value = {!!json_encode($registro->{'Nombre servicio'})!!};
                                                 document.getElementById('tipoPago').value = {!!json_encode($registro->{'Medio pago'})!!};
                                                 document.getElementById('valorPagado').value = {!!json_encode($registro->{'Valor pagado'})!!};
+                                                document.getElementById('afiliacion_id').value = {!!json_encode($registro->{'Id afiliacion'})!!};
+                                                document.getElementById('externo').checked = {!!json_encode($registro->{'Pago externo'})!!} == "Si" ? true : false;
                                                 document.getElementById('labelValor').innerHTML = "Valor pagado:";
+
+                                                valorPagado = {!!json_encode($registro->{'Valor a pagar'})!!}
 
                                             };
                                             var input = document.getElementById({!!json_encode($registro->Id)!!});
@@ -363,7 +369,9 @@
                                         </script>
                                         @foreach ($registro as $key => $value) 
                                             
-                                            <td>{{ $value }}</td>
+                                        @if($key != 'Id afiliacion' && $key != 'Valor a pagar' )
+                                        <th>{{$value}}</th>
+                                        @endif
                                             
                                             
                                         @endforeach
@@ -377,7 +385,9 @@
                                     <th>Seleccionar</th>
                                     @foreach ($pagos[0] as $key => $value) 
                                         
+                                        @if($key != 'Id afiliacion' && $key != 'Valor a pagar' )
                                         <th>{{$key}}</th>
+                                        @endif
                                         
                                     @endforeach
                                     

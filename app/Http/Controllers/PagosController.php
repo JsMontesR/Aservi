@@ -27,12 +27,14 @@ class PagosController extends Controller
     {
        $pagos = DB::table('pagos')->select(
         DB::raw('pagos.id as Id'),
+        DB::raw('afiliaciones.id as "Id afiliacion"'),
         DB::raw('clientes.nombre as "Nombre cliente"'),
         DB::raw('clientes.di as Cedula'),
         DB::raw('servicios.nombre as "Nombre servicio"'),
         DB::raw('pagos.tipoPago as "Medio pago"'),
         DB::raw('IF(pagos.externo = 1,"Si", "No") as "Pago externo"'),
         DB::raw('pagos.monto as "Valor pagado"'),
+        DB::raw('servicios.costo as "Valor a pagar"'),
         DB::raw('pagos.created_at as "Fecha de pago"'))
        ->join('afiliaciones','afiliaciones.id','=','pagos.afiliacion_id')
        ->join('clientes', 'clientes.id', '=', 'afiliaciones.cliente_id')
