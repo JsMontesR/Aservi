@@ -165,8 +165,13 @@ class ReportesController extends Controller
         $this->filtrarFechasIngresos($consulta,$request);
 
         
-
-        return "Total de ingresos $" . $consulta->select(DB::raw('SUM(precio) as Total'))->get()[0]->Total;
+        $valor = $consulta->select(DB::raw('SUM(precio) as Total'))->get()[0]->Total;
+        if($valor != null && $valor > 0){
+            return "Total de ingresos $" . valor ;
+        }else{
+            return "No se registraron ingresos";
+        }
+        
 
     }
 
@@ -183,9 +188,9 @@ class ReportesController extends Controller
         if($request->empresa_id != null && $request->empresa_id != "todas"){
             $request->validate($this->reglasValidacionEstado);
             $empresa = Empresa::find($request->empresa_id);
-            return "Estado clientes " . $empresa->nombre;
+            return "estado clientes " . $empresa->nombre;
         }else{
-            return "Estado clientes de todas las empresas";
+            return "estado clientes de todas las empresas";
         }
     }
 
@@ -196,9 +201,9 @@ class ReportesController extends Controller
 
         if($request->empresa_id != null && $request->empresa_id != "todas"){
             $empresa = Empresa::find($request->empresa_id);
-            $nombre .= "Ingresos " . $empresa->nombre;
+            $nombre .= "ingresos " . $empresa->nombre;
         }else{
-            $nombre = "Ingresos de todas las empresas";
+            $nombre = "ingresos de todas las empresas";
         }
 
         if($request->fechaInicio != null){

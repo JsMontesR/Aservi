@@ -9,7 +9,7 @@
 <link href="{{asset('css/styles.css')}}" rel="stylesheet">
 
 <div class="card-header py-3">
-        <h1 align="center" class="m-0 font-weight-bold text-primary">{{$nombrereporte}}</h6>
+        <h1 align="center" class="m-0 font-weight-bold text-primary">Reporte {{$nombrereporte}}</h6>
 </div>
 <br>
 

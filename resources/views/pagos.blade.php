@@ -378,7 +378,7 @@
                                         @foreach ($registro as $key => $value) 
                                             
                                         @if($key != 'Id afiliacion' && $key != 'Precio')
-                                        <th>{{$value}}</th>
+                                        <td>{{$value}}</td>
                                         @endif
                                             
                                             
