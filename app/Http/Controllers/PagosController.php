@@ -33,7 +33,8 @@ class PagosController extends Controller
         DB::raw('servicios.nombre as "Nombre servicio"'),
         DB::raw('pagos.tipoPago as "Medio pago"'),
         DB::raw('IF(pagos.externo = 1,"Si", "No") as "Pago externo"'),
-        DB::raw('servicios.precio as "Valor pagado"'),
+        DB::raw('IF(pagos.externo = 1, 0, servicios.precio) as "Valor pagado"'),
+        DB::raw('servicios.precio as "Precio"'),
         DB::raw('pagos.created_at as "Fecha de pago"'))
        ->join('afiliaciones','afiliaciones.id','=','pagos.afiliacion_id')
        ->join('clientes', 'clientes.id', '=', 'afiliaciones.cliente_id')
@@ -72,7 +73,6 @@ class PagosController extends Controller
         $pago->tipoPago = $request->tipoPago;
         $pago->user_id = auth()->id();
         $pago->externo = $request->has('externo'); 
-        $pago->monto = $request->valorPagado;
         
         $this->calcularProximoPago($pago->afiliacion);
         $pago->save();
@@ -122,7 +122,6 @@ class PagosController extends Controller
         $pago->afiliacion_id = $request->afiliacion_id;
         $pago->tipoPago = $request->tipoPago;
         $pago->externo = $request->has('externo');
-        $pago->monto = $request->valorPagado;
         $pago->save();
 
         return back()->with('success', 'Pago actualizado');

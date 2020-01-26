@@ -43,7 +43,7 @@ class ReportesController extends Controller
             DB::raw('id as Id'),
             DB::raw('nombre as Nombre'))->get();
     
-         return view('estados',["registros" => $this->consultarTabla('Estado clientes',$request), "nombrereporte" => $nombrereporte, "rutapdf" => $rutapdf, "empresas" => $empresas]);
+         return view('estados',["registros" => $this->consultarTabla('Estado clientes',$request), "nombrereporte" => $nombrereporte, "rutapdf" => $rutapdf, "empresas" => $empresas, "totales" => null]);
     }
 
     //////////////////////////
@@ -59,7 +59,7 @@ class ReportesController extends Controller
             DB::raw('id as Id'),
             DB::raw('nombre as Nombre'))->get();
     
-         return view('ingresos',["registros" => $this->consultarTabla('Ingresos',$request), "nombrereporte" => $nombrereporte, "rutapdf" => $rutapdf, "empresas" => $empresas]);
+         return view('ingresos',["registros" => $this->consultarTabla('Ingresos',$request), "nombrereporte" => $nombrereporte, "rutapdf" => $rutapdf, "empresas" => $empresas , "totales" => $this->consultarTotal($request)]);
     }
 
     /*
@@ -82,7 +82,7 @@ class ReportesController extends Controller
         return $pdf->stream('reporte.pdf');
     }
 
-    public function consultarTabla($tipo, $request{
+    public function consultarTabla($tipo, $request){
 
         if(!strcmp($tipo,"Estado clientes")){
             $consulta = DB::table('clientes')
@@ -99,12 +99,10 @@ class ReportesController extends Controller
                 ->join('afiliaciones','afiliaciones.cliente_id','=','clientes.id')
                 ->join('servicios','servicios.id','=','afiliaciones.servicio_id')
                 ->join('empresas','empresas.id','=','afiliaciones.empresa_id')->where('afiliaciones.activo',true);
-            if($request->empresa_id != null && $request->empresa_id != "todas"){
-                return $consulta->where('afiliaciones.empresa_id',$request->empresa_id)->get();
-            }else{
-                return $consulta->get();
-            }
-         
+
+            
+            return $this->filtrarEmpresa($consulta,$request)->get();
+    
 
         }elseif(!strcmp($tipo,"Ingresos")){
             $consulta = DB::table('pagos')
@@ -119,28 +117,57 @@ class ReportesController extends Controller
                 ->join('afiliaciones','afiliaciones.id','=','pagos.afiliacion_id')
                 ->join('servicios','servicios.id','=','afiliaciones.servicio_id')
                 ->join('empresas','empresas.id','=','afiliaciones.empresa_id')
-                ->join('clientes','clientes.id','=','afiliaciones.cliente_id');
+                ->join('clientes','clientes.id','=','afiliaciones.cliente_id')->where('pagos.externo',false);
 
-                if($request->empresa_id != null && $request->empresa_id != "todas"){
-                $consulta = $consulta->where('afiliaciones.empresa_id',$request->empresa_id);
-                }
-
-                if($request->fechaInicio != null){
-                    $consulta = $consulta->where(DB::raw('DATE(pagos.created_at)'),">=",date("Y-m-d",strtotime($request->fechaInicio)));
-                }
-
-                if($request->fechaFin !=null){
-                    $consulta = $consulta->where(DB::raw('DATE(pagos.created_at)'),"<=",date("Y-m-d",strtotime($request->fechaFin)));
-                }
-
-                return $consulta->get();
+               
+                $this->filtrarEmpresa($consulta,$request);
+                return $this->filtrarFechasIngresos($consulta,$request)->get();
             
         }
 
     }
 
+    public function filtrarFechasIngresos($consulta,$request){
+        if($request->fechaInicio != null){
+            $consulta = $consulta->where(DB::raw('DATE(pagos.created_at)'),">=",date("Y-m-d",strtotime($request->fechaInicio)));
+        }
+
+        if($request->fechaFin !=null){
+            $consulta = $consulta->where(DB::raw('DATE(pagos.created_at)'),"<=",date("Y-m-d",strtotime($request->fechaFin)));
+        }
+
+        return $consulta;
+    }
+
+    public function filtrarEmpresa($consulta,$request){
+
+          if($request->empresa_id != null && $request->empresa_id != "todas"){
+            return $consulta->where('afiliaciones.empresa_id',$request->empresa_id);
+          }
+
+          return $consulta;
+
+    }
+
     public function consultarTotal($request){
+
+        $consulta = DB::table('pagos')
+        ->select(
+                    DB::raw('pagos.id AS "Id de pago"'),
+                    DB::raw('pagos.externo AS "Pago externo"'),
+                    DB::raw('pagos.created_at AS "Fecha de pago"'),
+                    DB::raw('servicios.precio AS "Valor pagado"')
+                    )
+                ->join('afiliaciones','afiliaciones.id','=','pagos.afiliacion_id')
+                ->join('servicios','servicios.id','=','afiliaciones.servicio_id')
+                ->where('pagos.externo',0);
+
+        $this->filtrarFechasIngresos($consulta,$request);
+
         
+
+        return "Total de ingresos $" . $consulta->select(DB::raw('SUM(precio) as Total'))->get()[0]->Total;
+
     }
 
     public function validarFecha($request){

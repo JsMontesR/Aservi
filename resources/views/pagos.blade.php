@@ -299,10 +299,11 @@
                 function deshabilitarMonto(){
                     var valor = document.getElementById("externo").checked;
                     if(valor){
-                        valorPagado = document.getElementById("valorPagado").value;
-                        document.getElementById("valorPagado").value = 0;
+                        document.getElementById("valorPagado").style.visibility = 'hidden';
+                        document.getElementById("labelValor").style.visibility = 'hidden';
                     }else{
-                        document.getElementById("valorPagado").value = valorPagado;
+                        document.getElementById("valorPagado").style.visibility = 'visible';
+                        document.getElementById("labelValor").style.visibility = 'visible';
                     }
                 }
 
@@ -328,7 +329,7 @@
                                   <tr>
                                     <th>Seleccionar</th>
                                     @foreach ($pagos->get(0) as $key => $value) 
-                                       @if($key != 'Id afiliacion' && $key != 'Valor a pagar' )
+                                        @if($key != 'Id afiliacion' && $key != 'Precio')
                                         <th>{{$key}}</th>
                                         @endif
                                         
@@ -360,7 +361,14 @@
                                                 document.getElementById('externo').checked = {!!json_encode($registro->{'Pago externo'})!!} == "Si" ? true : false;
                                                 document.getElementById('labelValor').innerHTML = "Valor pagado:";
 
-                                                valorPagado = {!!json_encode($registro->{'Valor a pagar'})!!}
+                                                if({!!json_encode($registro->{'Pago externo'})!!} == "Si" ? true : false){
+                                                    document.getElementById("valorPagado").value = {!!json_encode($registro->{'Precio'})!!};
+                                                    document.getElementById("valorPagado").style.visibility = 'hidden';
+                                                    document.getElementById("labelValor").style.visibility = 'hidden';
+                                                }else{                                                
+                                                    document.getElementById("valorPagado").style.visibility = 'visible';
+                                                    document.getElementById("labelValor").style.visibility = 'visible';
+                                                }
 
                                             };
                                             var input = document.getElementById({!!json_encode($registro->Id)!!});
@@ -369,7 +377,7 @@
                                         </script>
                                         @foreach ($registro as $key => $value) 
                                             
-                                        @if($key != 'Id afiliacion' && $key != 'Valor a pagar' )
+                                        @if($key != 'Id afiliacion' && $key != 'Precio')
                                         <th>{{$value}}</th>
                                         @endif
                                             
@@ -385,7 +393,7 @@
                                     <th>Seleccionar</th>
                                     @foreach ($pagos[0] as $key => $value) 
                                         
-                                        @if($key != 'Id afiliacion' && $key != 'Valor a pagar' )
+                                        @if($key != 'Id afiliacion' && $key != 'Precio')
                                         <th>{{$key}}</th>
                                         @endif
                                         

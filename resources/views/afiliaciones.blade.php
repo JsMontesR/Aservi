@@ -359,7 +359,15 @@
                                                     </script>
                                                     @foreach ($registro as $key => $value) 
                                                         @if($key != 'Id empresa' && $key != "Id cliente" && $key != "Id servicio")
-                                                        <td>{{$value}}</th>
+                                                            @if($key == 'Estado')
+                                                                @if($value == "Inactivo")
+                                                                    <td style="color:#FF0000">{{$value}}</th>
+                                                                @else
+                                                                    <td style="color:#008f39">{{$value}}</th>
+                                                                @endif
+                                                            @else
+                                                                <td>{{$value}}</th>
+                                                            @endif
                                                         @endif
                                                         
                                                     @endforeach
