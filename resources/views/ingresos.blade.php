@@ -14,6 +14,7 @@
 
               <div class="col-md-8">
                   <select id="empresa_id" name="empresa_id" class="form-control @error('empresa_id') is-invalid @enderror" style="text-transform: capitalize" >
+                      <option id="todas" value="todas">Todas</option>
                       @foreach($empresas as $empresa)
                           <option id={{$empresa->Id}} value={{$empresa->Id}}>{{$empresa->Nombre}}</option>
                       @endforeach
@@ -46,7 +47,7 @@
                     <input id="fechaFin" type="date" class="form-control @error('fechaFin') is-invalid @enderror" value="{{old('fechaFin')}}" name="fechaFin" required autocomplete="fechaFin">
                     @error('fechaFin')
                         <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
+                            <strong>{{$message}}</strong>
                         </span>
                     @enderror
                 </div>

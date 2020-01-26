@@ -35,13 +35,6 @@
                         </tr>
                         @endforeach
                     </tbody>
-                    <tfoot>
-                      <tr>
-                         @foreach ($registros[0] as $key => $value) 
-                            <th>{{$key}}</th>
-                        @endforeach
-                      </tr>
-                    </tfoot>
             @else
               <h3 align="center">No hay registros disponibles, intentelo más tarde</h3>
             @endif

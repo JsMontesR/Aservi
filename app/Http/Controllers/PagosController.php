@@ -33,8 +33,7 @@ class PagosController extends Controller
         DB::raw('servicios.nombre as "Nombre servicio"'),
         DB::raw('pagos.tipoPago as "Medio pago"'),
         DB::raw('IF(pagos.externo = 1,"Si", "No") as "Pago externo"'),
-        DB::raw('pagos.monto as "Valor pagado"'),
-        DB::raw('servicios.costo as "Valor a pagar"'),
+        DB::raw('servicios.precio as "Valor pagado"'),
         DB::raw('pagos.created_at as "Fecha de pago"'))
        ->join('afiliaciones','afiliaciones.id','=','pagos.afiliacion_id')
        ->join('clientes', 'clientes.id', '=', 'afiliaciones.cliente_id')
@@ -48,7 +47,7 @@ class PagosController extends Controller
             DB::raw('servicios.id as "Id del servicio"'),
             DB::raw('servicios.nombre as "Nombre del servicio"'),
             DB::raw('afiliaciones.fechaSiguientePago as "Fecha de siguiente pago"'),
-            DB::raw('servicios.costo as "Valor a pagar"'))
+            DB::raw('servicios.precio as "Valor a pagar"'))
         ->join('clientes', 'clientes.id', '=', 'afiliaciones.cliente_id')
         ->join('servicios', 'servicios.id', '=', 'afiliaciones.servicio_id')
         ->get();
@@ -168,7 +167,7 @@ class PagosController extends Controller
         $telefono = $pago->afiliacion->cliente->telefonocelular;
         $email = $pago->afiliacion->cliente->email;
         $producto = $pago->afiliacion->servicio->nombre;
-        $valor = $pago->afiliacion->servicio->costo;
+        $valor = $pago->afiliacion->servicio->precio;
 
         $pdf = \PDF::loadView('pdf.recibo',compact('nombre','fijo','celular','fechaActual','horaActual','numeroRecibo','usuario','tipoPago','cc','nombreCliente','direccion','telefono','email','producto','valor'));
         return $pdf->stream('recibo.pdf');

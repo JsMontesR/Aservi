@@ -63,5 +63,5 @@ Route::get('/reporteEstado.pdf/{empresa_id?}','ReportesController@reporteEstadoP
 
 ////Reportes ingresos 
 
-Route::get('/reporteIngresos/{fechaInicio?}/{fechaFin?}','ReportesController@reporteIngresos')->name('reporteIngresos')->middleware('auth');
-Route::get('/reporteIngresos.pdf/{fechaInicio?}/{fechaFin?}','ReportesController@reporteIngresosPdf')->name('reporteIngresos.pdf')->middleware('auth');
+Route::get('/reporteIngresos/{empresa_id?}/{fechaInicio?}/{fechaFin?}','ReportesController@reporteIngresos')->name('reporteIngresos')->middleware('auth');
+Route::get('/reporteIngresos.pdf/{empresa_id?}/{fechaInicio?}/{fechaFin?}','ReportesController@reporteIngresosPdf')->name('reporteIngresos.pdf')->middleware('auth');

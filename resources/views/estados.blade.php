@@ -14,10 +14,10 @@
 
 	            <div class="col-md-8">
 	                <select id="empresa_id" name="empresa_id" class="form-control @error('empresa_id') is-invalid @enderror" style="text-transform: capitalize">
+                        <option id="todas" value="todas">Todas</option>
 	                    @foreach($empresas as $empresa)
 	                        <option id={{$empresa->Id}} value={{$empresa->Id}}>{{$empresa->Nombre}}</option>
 	                    @endforeach
-	                    
 	                </select>
 	                @error('empresa_id')
 	                <span class="invalid-feedback" role="alert">

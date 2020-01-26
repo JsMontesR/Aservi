@@ -11,12 +11,12 @@ class ReportesController extends Controller
 {
 
     public $reglasValidacionEstado = [
-            'empresa_id' => 'required|integer|min:0',
+            'empresa_id' => 'nullable',
         ];
 
     public $reglasValidacionIngresos = [
-        'empresa_id' => 'required|integer|min:0',
-        'fechaInicio' => 'required',
+        'empresa_id' => 'nullable',
+        'fechaInicio' => 'nullable',
         'fechaFin' => 'nullable|before_or_equal:today',
     ];
     /**
@@ -35,9 +35,8 @@ class ReportesController extends Controller
 
     public function reporteEstado(Request $request){
         
-
         
-        $nombrereporte = generarNombreReporteEstado($request);
+        $nombrereporte = $this->generarNombreReporteEstado($request);
         $rutapdf = 'reporteEstado.pdf';
 
         $empresas = DB::table('empresas')->select(
@@ -52,7 +51,7 @@ class ReportesController extends Controller
      public function reporteIngresos(Request $request){
                 
         $this->validarFecha($request);
-        $nombrereporte = generarNombreReporteIngresos($request);
+        $nombrereporte = $this->generarNombreReporteIngresos($request);
 
         $rutapdf = 'reporteIngresos.pdf';
 
@@ -60,7 +59,7 @@ class ReportesController extends Controller
             DB::raw('id as Id'),
             DB::raw('nombre as Nombre'))->get();
     
-         return view('ingresos',["registros" => $this->consultarTabla('Ingresos',array("fechaInicio" => $request->fechaInicio, "fechaFin" => $request->fechaFin,)), "nombrereporte" => $nombrereporte, "rutapdf" => $rutapdf, "empresas" => $empresas]);
+         return view('ingresos',["registros" => $this->consultarTabla('Ingresos',array("fechaInicio" => $request->fechaInicio, "fechaFin" => $request->fechaFin, "empresa_id" => $request->empresa_id,)), "nombrereporte" => $nombrereporte, "rutapdf" => $rutapdf, "empresas" => $empresas]);
     }
 
     /*
@@ -68,7 +67,7 @@ class ReportesController extends Controller
     */
 
     public function reporteEstadoPdf(Request $request){
-		$nombrereporte = generarNombreReporteEstado($request);
+		$nombrereporte = $this->generarNombreReporteEstado($request);
         $registros = $this->consultarTabla('Estado clientes',$request->empresa_id);
 
         $pdf = \PDF::loadView('pdf.reporte',compact('registros','nombrereporte'));
@@ -76,8 +75,8 @@ class ReportesController extends Controller
     }
 
     public function reporteIngresosPdf(Request $request){
-        $nombrereporte = generarNombreReporteIngresos($request);
-        $registros = $this->consultarTabla('Estado clientes',$request->empresa_id);
+        $nombrereporte = $this->generarNombreReporteIngresos($request);
+        $registros = $this->consultarTabla('Ingresos',array("fechaInicio" => $request->fechaInicio, "fechaFin" => $request->fechaFin, "empresa_id" => $request->empresa_id,));
 
         $pdf = \PDF::loadView('pdf.reporte',compact('registros','nombrereporte'));
         return $pdf->stream('reporte.pdf');
@@ -100,7 +99,7 @@ class ReportesController extends Controller
                 ->join('afiliaciones','afiliaciones.cliente_id','=','clientes.id')
                 ->join('servicios','servicios.id','=','afiliaciones.servicio_id')
                 ->join('empresas','empresas.id','=','afiliaciones.empresa_id');
-            if($filtro != null){
+            if($filtro != null && $filtro["empresa_id"] != "todas"){
                 return $consulta->where('afiliaciones.empresa_id',$filtro)->get();
             }else{
                 return $consulta->get();
@@ -115,7 +114,7 @@ class ReportesController extends Controller
                     DB::raw('servicios.nombre AS "Nombre del servicio"'),
                     DB::raw('empresas.nombre AS "Empresa"'),
                     DB::raw('pagos.created_at AS "Fecha de pago"'),
-                    DB::raw('pagos.monto AS "Valor pagado"')
+                    DB::raw('servicios.precio AS "Valor pagado"')
                     )
                 ->join('afiliaciones','afiliaciones.id','=','pagos.afiliacion_id')
                 ->join('servicios','servicios.id','=','afiliaciones.servicio_id')
@@ -123,15 +122,19 @@ class ReportesController extends Controller
                 ->join('clientes','clientes.id','=','afiliaciones.cliente_id');
             if($filtro != null){
 
+                if($filtro["empresa_id"] != null && $filtro["empresa_id"] != "todas"){
+                $consulta = $consulta->where('afiliaciones.empresa_id',$filtro["empresa_id"]);
+                }
+
                 if($filtro["fechaInicio"]!=null){
-                    $consulta = $consulta->where('pagos.created_at',">=",date("Y-m-d H:i:s",$filtro["fechaInicio"]));
+                    $consulta = $consulta->where(DB::raw('DATE(pagos.created_at)'),">=",date("Y-m-d",strtotime($filtro["fechaInicio"])));
                 }
 
-                elseif($filtro["fechaFin"]!=null){
-
-                    $consulta = $consulta->where('pagos.created_at',"<=",date("Y-m-d H:i:s",$filtro["fechaFin"]))->get();
-
+                if($filtro["fechaFin"]!=null){
+                    $consulta = $consulta->where(DB::raw('DATE(pagos.created_at)'),"<=",date("Y-m-d",strtotime($filtro["fechaFin"])));
                 }
+
+                
                 
             }
                 return $consulta->get();
@@ -145,7 +148,7 @@ class ReportesController extends Controller
     }
 
     public function validarFecha($request){
-        if($request->fechaFin != null && (date("Y-m-d H:i:s",$request->fechaInicio) > date("Y-m-d H:i:s",$request->fechaFin))){
+        if($request->fechaFin != null && (date("Y-m-d H:i:s",strtotime($request->fechaInicio)) > date("Y-m-d H:i:s",strtotime($request->fechaFin)))){
             throw ValidationException::withMessages(['fechaInicio' => 'La fecha de inicio debe ser anterior a la fecha de fin.']);
         }
     }
@@ -154,23 +157,36 @@ class ReportesController extends Controller
 
 
     public function generarNombreReporteEstado($request){
-        if($request->empresa_id != null){
+        if($request->empresa_id != null && $request->empresa_id != "todas"){
             $request->validate($this->reglasValidacionEstado);
             $empresa = Empresa::find($request->empresa_id);
             return "Estado clientes " . $empresa->nombre;
         }else{
-            return "Estado clientes";
+            return "Estado clientes de todas las empresas";
         }
     }
 
     public function generarNombreReporteIngresos($request){
-        if($request->empresa_id != null){
-            $request->validate($this->reglasValidacionEstado);
+        $request->validate($this->reglasValidacionIngresos);
+
+        $nombre =  "";
+
+        if($request->empresa_id != null && $request->empresa_id != "todas"){
             $empresa = Empresa::find($request->empresa_id);
-            return "Ingresos " . $empresa->nombre;
+            $nombre .= "Ingresos " . $empresa->nombre;
         }else{
-            return "Ingresos";
+            $nombre = "Ingresos de todas las empresas";
         }
+
+        if($request->fechaInicio != null){
+            $nombre .= " desde " . $request->fechaInicio;
+        }
+
+        if($request->fechaFin != null){
+            $nombre .= " hasta " . $request->fechaFin;
+        }
+
+        return $nombre;
     }
 
 
