@@ -114,7 +114,7 @@ class ReportesController extends Controller
         }elseif(!strcmp($tipo,"Ingresos")){
             $consulta = DB::table('pagos')
                 ->select(
-                    DB::raw('pagos.id AS "Id de pago"'),
+                    DB::raw('pagos.id AS "#"'),
                     DB::raw('clientes.nombre AS "Nombre del cliente"'),
                     DB::raw('servicios.nombre AS "Nombre del servicio"'),
                     DB::raw('empresas.nombre AS "Empresa"'),
