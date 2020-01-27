@@ -44,8 +44,8 @@ class ReportesController extends Controller
         $empresas = DB::table('empresas')->select(
             DB::raw('id as Id'),
             DB::raw('nombre as Nombre'))->get();
-    
-         return view('estados',["registros" => $this->consultarTabla('Estado clientes',$request), "nombrereporte" => $nombrereporte, "rutapdf" => $rutapdf, "empresas" => $empresas, "totales" => null]);
+        $morosos = array(0 => $this->consultarTotalMorosos() . " cliente(s) en mora");
+         return view('estados',["registros" => $this->consultarTabla('Estado clientes',$request), "nombrereporte" => $nombrereporte, "rutapdf" => $rutapdf, "empresas" => $empresas, "pieDePg" => $morosos ]);
     }
 
     //////////////////////////
@@ -61,9 +61,9 @@ class ReportesController extends Controller
             DB::raw('id as Id'),
             DB::raw('nombre as Nombre'))->get();
 
-        $totales =  array("ingresos" => $this->consultarTotal($request,0,0), "utilidades" => $this->consultarTotal($request,1,0,0));
+        $pieDePg =  array(0 => $this->consultarTotal($request,0,0), 1 => $this->consultarTotal($request,1,0,0));
     
-         return view('ingresos',["registros" => $this->consultarTabla('Ingresos',$request), "nombrereporte" => $nombrereporte, "rutapdf" => $rutapdf, "empresas" => $empresas , "totales" => $totales]);
+         return view('ingresos',["registros" => $this->consultarTabla('Ingresos',$request), "nombrereporte" => $nombrereporte, "rutapdf" => $rutapdf, "empresas" => $empresas , "pieDePg" => $pieDePg]);
     }
 
     /*
@@ -73,17 +73,19 @@ class ReportesController extends Controller
     public function reporteEstadoPdf(Request $request){
 		$nombrereporte = $this->generarNombreReporteEstado($request);
         $registros = $this->consultarTabla('Estado clientes',$request);
+        $morosos = array(0 => $this->consultarTotalMorosos() . "cliente(s) en mora");
 
-        $pdf = \PDF::loadView('pdf.reporte',compact('registros','nombrereporte'));
+        $pdf = \PDF::loadView('pdf.reporte',compact('registros','nombrereporte','morosos'));
         return $pdf->stream('reporte.pdf');
     }
 
     public function reporteIngresosPdf(Request $request){
         $nombrereporte = $this->generarNombreReporteIngresos($request);
         $registros = $this->consultarTabla('Ingresos',$request);
-        $totales =  array("ingresos" => $this->consultarTotal($request,0,0), "utilidades" => $this->consultarTotal($request,1,0));
+        $pieDePg =  array(0 => $this->consultarTotal($request,0,0), 1 => $this->consultarTotal($request,1,0));
 
-        $pdf = \PDF::loadView('pdf.reporte',compact('registros','nombrereporte'));
+
+        $pdf = \PDF::loadView('pdf.reporte',compact('registros','nombrereporte','pieDePg'));
         return $pdf->stream('reporte.pdf');
     }
 

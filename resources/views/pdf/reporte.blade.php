@@ -8,6 +8,10 @@
 
 <link href="{{asset('css/styles.css')}}" rel="stylesheet">
 
+<style>
+    @page { size: 279.4mm 216mm ;margin: 3px;}
+</style>
+
 <div class="card-header py-3">
         <h1 align="center" class="m-0 font-weight-bold text-primary">Reporte {{$nombrereporte}}</h6>
 </div>
@@ -60,14 +64,14 @@
     </div>
   </div>
 </div> 
-@if($totales != null)
+@if($pieDePg != null)
   <div class="card-header py-3">
-        <h4 align="center" class="m-0 font-weight-bold text-primary">{{$totales["ingresos"]}}</h4>
-        <br>
-        <h4 align="center" class="m-0 font-weight-bold text-primary">{{$totales["utilidades"]}}</h4>
+    @foreach($pieDePg as $key => $value)
+        <h4 align="center" class="m-0 font-weight-bold text-primary">{{$value}}</h4>
+        <br> 
+    @endforeach
   </div>
 @endif
-<br>
 
 
  <h5 align="center">Fecha y hora actual del reporte {{(new DateTime())->format('d/m/yy h:i:s')}}</h5>
