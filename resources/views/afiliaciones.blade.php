@@ -23,7 +23,7 @@
                     <label class="col-md-4 col-form-label text-md-left">Número de afiliación (Id):</label>
 
                     <div class="col-md-8">
-                        <input readonly="readonly" id="id" class="form-control @error('id') is-invalid @enderror" value="{{old('id')}}" name="id" required autocomplete="iduser">
+                        <input readonly="readonly" id="id" class="form-control @error('id') is-invalid @enderror" value="{{old('id')}}" name="id" required autocomplete="id">
                         @error('id')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>

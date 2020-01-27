@@ -38,7 +38,6 @@ class ReportesController extends Controller
 
     public function reporteEstado(Request $request){
         
-        
         $nombrereporte = $this->generarNombreReporteEstado($request);
         $rutapdf = 'reporteEstado.pdf';
 
@@ -101,7 +100,7 @@ class ReportesController extends Controller
                     DB::raw('IF(afiliaciones.fechaSiguientePago IS NULL,
                     "Sin pagos registrados",
                     IF((DATE_FORMAT(afiliaciones.fechaSiguientePago,"%Y-%m-%d 00:00:00") < DATE_FORMAT(NOW(),"%Y-%m-%d 00:00:00")),
-                    CONCAT("En mora por ", DATEDIFF(CURDATE(), afiliaciones.fechaSiguientePago), " días"),"Al día")) AS Estado'))
+                    CONCAT("En mora por ", DATEDIFF(CURDATE(), afiliaciones.fechaSiguientePago), " días"),"Al dia")) AS Estado'))
                 ->join('afiliaciones','afiliaciones.cliente_id','=','clientes.id')
                 ->join('servicios','servicios.id','=','afiliaciones.servicio_id')
                 ->join('empresas','empresas.id','=','afiliaciones.empresa_id')->where('afiliaciones.activo',true);

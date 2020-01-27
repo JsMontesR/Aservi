@@ -11,7 +11,7 @@ class Afiliacion extends Model
 {
 
     protected $table = 'afiliaciones';
-    protected $fillable = ['id','fechaSiguientePago','cliente_id','servicio_id'];
+    protected $fillable = ['id','fechaSiguientePago','cliente_id','servicio_id','activo'];
 
     public function pagos(){
     	return $this->hasMany(Pago::class);

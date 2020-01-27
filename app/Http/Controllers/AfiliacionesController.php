@@ -29,7 +29,7 @@ class AfiliacionesController extends Controller
         DB::raw('cliente_id as "Id cliente"'),
         DB::raw('clientes.di as "Cedula cliente afiliado"'),
         DB::raw('clientes.nombre as "Nombre cliente afiliado"'),
-        DB::raw('cliente_id as "Id servicio"'),
+        DB::raw('servicios.id as "Id servicio"'),
         DB::raw('servicios.nombre as "Nombre servicio"'),
         DB::raw('empresas.id as "Id empresa"'),
         DB::raw('empresas.nombre as "Empresa"'),

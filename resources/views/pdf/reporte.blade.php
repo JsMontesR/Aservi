@@ -27,12 +27,26 @@
                     </thead>
                     <tbody>
                        @foreach($registros as $registro)
-                        <tr>
-                            @foreach ($registros[0] as $key => $value) 
-                                <td>{{ $registro->{$key} }}</td>
-                            @endforeach
+                       <tr>
+                          @foreach($registro as $key => $value)
                             
-                        </tr>
+                                  @if($key == "Estado")
+                                    @if($value == "Al dia")
+                                      <td style="color:#008f39">{{ $value }}</td>
+                                    @else
+                                      @if($value == "Sin pagos registrados")
+                                        <td>{{ $value }}</td>
+                                      @else
+                                        <td style="color:#FF0000">{{ $value }}</td>
+                                      @endif
+                                    @endif
+
+                                  @else
+                                    <td>{{ $value }}</td>
+                                  @endif                            
+                            
+                          @endforeach
+                          </tr>
                         @endforeach
                     </tbody>
             @else
