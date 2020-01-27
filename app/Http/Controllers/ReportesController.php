@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Dompdf\Dompdf;
 use DB;
 use App\Empresa;
+use Illuminate\Validation\ValidationException;
 
 class ReportesController extends Controller
 {
@@ -73,9 +74,9 @@ class ReportesController extends Controller
     public function reporteEstadoPdf(Request $request){
 		$nombrereporte = $this->generarNombreReporteEstado($request);
         $registros = $this->consultarTabla('Estado clientes',$request);
-        $morosos = array(0 => $this->consultarTotalMorosos() . "cliente(s) en mora");
+        $pieDePg = array(0 => $this->consultarTotalMorosos() . "cliente(s) en mora");
 
-        $pdf = \PDF::loadView('pdf.reporte',compact('registros','nombrereporte','morosos'));
+        $pdf = \PDF::loadView('pdf.reporte',compact('registros','nombrereporte','pieDePg'));
         return $pdf->stream('reporte.pdf');
     }
 
