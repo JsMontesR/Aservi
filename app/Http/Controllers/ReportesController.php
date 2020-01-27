@@ -26,7 +26,10 @@ class ReportesController extends Controller
      */
     public function index()
     {
-        return view('reportes');
+        $request = new Request(array('fechaInicio' => date("Y-m-d")));
+        $ingresos = $this->consultarTotal($request,1,1);
+        $morosos = $this->consultarTotalMorosos();
+        return view('reportes',compact('ingresos','morosos'));
     }
 
     /*
@@ -58,8 +61,10 @@ class ReportesController extends Controller
         $empresas = DB::table('empresas')->select(
             DB::raw('id as Id'),
             DB::raw('nombre as Nombre'))->get();
+
+        $totales =  array("ingresos" => $this->consultarTotal($request,0,0), "utilidades" => $this->consultarTotal($request,1,0,0));
     
-         return view('ingresos',["registros" => $this->consultarTabla('Ingresos',$request), "nombrereporte" => $nombrereporte, "rutapdf" => $rutapdf, "empresas" => $empresas , "totales" => $this->consultarTotal($request)]);
+         return view('ingresos',["registros" => $this->consultarTabla('Ingresos',$request), "nombrereporte" => $nombrereporte, "rutapdf" => $rutapdf, "empresas" => $empresas , "totales" => $totales]);
     }
 
     /*
@@ -77,6 +82,7 @@ class ReportesController extends Controller
     public function reporteIngresosPdf(Request $request){
         $nombrereporte = $this->generarNombreReporteIngresos($request);
         $registros = $this->consultarTabla('Ingresos',$request);
+        $totales =  array("ingresos" => $this->consultarTotal($request,0,0), "utilidades" => $this->consultarTotal($request,1,0));
 
         $pdf = \PDF::loadView('pdf.reporte',compact('registros','nombrereporte'));
         return $pdf->stream('reporte.pdf');
@@ -112,7 +118,9 @@ class ReportesController extends Controller
                     DB::raw('servicios.nombre AS "Nombre del servicio"'),
                     DB::raw('empresas.nombre AS "Empresa"'),
                     DB::raw('pagos.created_at AS "Fecha de pago"'),
-                    DB::raw('servicios.precio AS "Valor pagado"')
+                    DB::raw('servicios.costo AS "Costo servicio"'),
+                    DB::raw('servicios.precio AS "Valor pagado"'),
+                    DB::raw('servicios.precio - servicios.costo AS "Utilidad"')
                     )
                 ->join('afiliaciones','afiliaciones.id','=','pagos.afiliacion_id')
                 ->join('servicios','servicios.id','=','afiliaciones.servicio_id')
@@ -149,7 +157,7 @@ class ReportesController extends Controller
 
     }
 
-    public function consultarTotal($request){
+    public function consultarTotal($request,$opcion,$tipo){
 
         $consulta = DB::table('pagos')
         ->select(
@@ -162,16 +170,36 @@ class ReportesController extends Controller
                 ->join('servicios','servicios.id','=','afiliaciones.servicio_id')
                 ->where('pagos.externo',0);
 
-        $this->filtrarEmpresa($consulta,$request);
-        $this->filtrarFechasIngresos($consulta,$request);
-
-        
-        $valor = $consulta->select(DB::raw('SUM(precio) as Total'))->get()[0]->Total;
-        if($valor != null && $valor > 0){
-            return "Total de ingresos $" . $valor ;
-        }else{
-            return "No se registraron ingresos";
+        if($request!=null){
+            $this->filtrarEmpresa($consulta,$request);
+            $this->filtrarFechasIngresos($consulta,$request);
         }
+        
+
+
+       
+
+        if($opcion == 0){
+            $valor = $consulta->select(DB::raw('SUM(precio) as Total'))->get()[0]->Total;
+            if($valor != null && $valor > 0){
+                $respuesta = "Total de ingresos $" . ReportesController::moneyFormat($valor,'COP') ;
+            }else{
+                $respuesta =  "No se registraron ingresos";
+            }
+        }elseif($opcion == 1){
+            $valor = $consulta->select(DB::raw('SUM(precio) - SUM(costo) as Total'))->get()[0]->Total;
+            if($valor != null && $valor > 0){
+                $respuesta = "Total de utilidades $" . ReportesController::moneyFormat($valor,'COP') ;
+            }else{
+                $respuesta = "No se registraron utilidades";
+            }
+        }
+
+        if($tipo == 1){
+            return ReportesController::moneyFormat($valor,'COP');
+        }
+
+        return $respuesta;
         
 
     }
@@ -217,6 +245,29 @@ class ReportesController extends Controller
 
         return $nombre;
     }
+
+    public function consultarTotalMorosos(){
+        $consulta = DB::table('clientes')
+                ->select(
+                    DB::raw('count(*) as Total'))
+                ->join('afiliaciones','afiliaciones.cliente_id','=','clientes.id')
+                ->join('servicios','servicios.id','=','afiliaciones.servicio_id')
+                ->where('afiliaciones.activo',true)
+                ->where('afiliaciones.fechaSiguientePago',"<",date("Y-m-d"));
+
+        return $consulta->get()[0]->Total;
+
+    }
+
+    public static function moneyFormat($price,$curr) {
+        $currencies['EUR'] = array(2, ',', '.');        // Euro
+        $currencies['ESP'] = array(2, ',', '.');        // Euro
+        $currencies['USD'] = array(2, '.', ',');        // US Dollar
+        $currencies['COP'] = array(0, ',', '.');        // Colombian Peso
+        $currencies['CLP'] = array(0,  '', '.');        // Chilean Peso
+
+        return number_format($price, ...$currencies[$curr]);
+}
 
 
 }

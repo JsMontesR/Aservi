@@ -48,7 +48,9 @@
 </div> 
 @if($totales != null)
   <div class="card-header py-3">
-        <h3 align="center" class="m-0 font-weight-bold text-primary">{{$totales}}</h6>
+        <h4 align="center" class="m-0 font-weight-bold text-primary">{{$totales["ingresos"]}}</h4>
+        <br>
+        <h4 align="center" class="m-0 font-weight-bold text-primary">{{$totales["utilidades"]}}</h4>
   </div>
 @endif
 <br>
@@ -56,7 +58,8 @@
 
  <h5 align="center">Fecha y hora actual del reporte {{(new DateTime())->format('d/m/yy h:i:s')}}</h5>
  <br>
-
+ <br>
+ 
 
 
 

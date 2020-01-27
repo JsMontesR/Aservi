@@ -8,7 +8,8 @@
           <div class="row no-gutters align-items-center">
             <div class="col mr-2">
               <div class="h5 mb-0 font-weight-bold text-gray-800">
-                <a href="{{route('reporteEstado')}}" class="font-weight-bold text-secondary">Estado de clientes</a>
+                <a href="{{route('reporteEstado')}}" class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Estado de clientes</a>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{$morosos}} cliente(s) en mora</div>
               </div>
             </div>
             <div class="col-auto">
@@ -24,7 +25,8 @@
           <div class="row no-gutters align-items-center">
             <div class="col mr-2">
               <div class="h5 mb-0 font-weight-bold text-gray-800">
-                <a href="{{route('reporteIngresos')}}" class="font-weight-bold text-success">Ingresos</a>
+                <a href="{{route('reporteIngresos')}}" class="text-xs font-weight-bold text-success text-uppercase mb-1">Ingresos</a>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{$ingresos}} hoy</div>
               </div>
             </div>
             <div class="col-auto">
