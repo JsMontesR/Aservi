@@ -29,8 +29,12 @@
   <label> Recibo no. {{$numeroRecibo}} </label>
   <br>
 
-  <label> Le atendió: {{$usuario}} </label>
-  <br>
+  @if($usuario != null)
+
+    <label> Le atendió: {{$usuario}} </label>
+    <br>
+    
+  @endif
 
   <label> Tipo de pago: {{$tipoPago}} </label>
   <br>
