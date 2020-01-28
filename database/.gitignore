@@ -1,2 +1,3 @@
 *.sqlite
 *.sqlite-journal
+/migrations/2020_01_28_123826_create_default_user.php
