@@ -74,7 +74,7 @@ class ReportesController extends Controller
     public function reporteEstadoPdf(Request $request){
 		$nombrereporte = $this->generarNombreReporteEstado($request);
         $registros = $this->consultarTabla('Estado clientes',$request);
-        $pieDePg = array(0 => $this->consultarTotalMorosos() . "cliente(s) en mora");
+        $pieDePg = array(0 => $this->consultarTotalMorosos() . " cliente(s) en mora");
 
         $pdf = \PDF::loadView('pdf.reporte',compact('registros','nombrereporte','pieDePg'));
         return $pdf->stream('reporte.pdf');
@@ -120,9 +120,9 @@ class ReportesController extends Controller
                     DB::raw('servicios.nombre AS "Nombre del servicio"'),
                     DB::raw('empresas.nombre AS "Empresa"'),
                     DB::raw('pagos.created_at AS "Fecha de pago"'),
-                    DB::raw('servicios.costo AS "Costo servicio"'),
-                    DB::raw('servicios.precio AS "Valor pagado"'),
-                    DB::raw('servicios.precio - servicios.costo AS "Utilidad"')
+                    DB::raw('concat("$",servicios.costo) AS "Costo servicio"'),
+                    DB::raw('concat("$",servicios.precio) AS "Valor pagado"'),
+                    DB::raw('concat("$",servicios.precio - servicios.costo) AS "Utilidad"')
                     )
                 ->join('afiliaciones','afiliaciones.id','=','pagos.afiliacion_id')
                 ->join('servicios','servicios.id','=','afiliaciones.servicio_id')

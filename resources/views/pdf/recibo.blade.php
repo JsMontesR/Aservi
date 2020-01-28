@@ -2,6 +2,13 @@
 
 <style>
     @page { size: 73mm 600pt ;margin: 5px;}
+
+    table {
+      border: #b2b2b2 1px solid;
+    }
+    td {
+      border: black 1px solid;
+    }
 </style>
 <!--
 <div align="center">
