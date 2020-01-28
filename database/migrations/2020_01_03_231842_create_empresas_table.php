@@ -55,6 +55,11 @@ class CreateEmpresasTable extends Migration
         $empresa7->nombre = "Independiente";
         $empresa7->save();
 
+        $empresa7 = new Empresa;
+        $empresa7->id = 8;
+        $empresa7->nombre = "Externos";
+        $empresa7->save();
+
 
     }
 
