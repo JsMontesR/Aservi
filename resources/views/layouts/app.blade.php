@@ -19,6 +19,7 @@
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link rel="icon" href="{{ asset('/favicon.png') }}" type="image/x-icon"/>
 
 </head>
 
@@ -33,10 +34,11 @@
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('home')}}">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-people-carry"></i>
+        <br>
+        <div class="sidebar-brand-icon">
+          <img src="aservi.png" class="img-fluid" alt="Responsive image">
         </div>
-        <div class="sidebar-brand-text mx-3">{{ config('app.name', 'Laravel') }} </div>
+        <br>
       </a>
 
       <!-- Divider -->
