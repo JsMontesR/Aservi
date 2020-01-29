@@ -15,7 +15,9 @@
     <img src="favicon.png" class="img-fluid" alt="Responsive image">
 </div>
 -->
-
+<div align="center">
+    <img style="width: 50mm; height: 13mm" src="aservi.png" class="img-fluid" alt="Responsive image">
+</div>
 <div align="center" style="font-size:12px">{{$nombre}}</div>
 <div align="center" style="font-size:12px">{{$fijo}}</div>
 <div align="center" style="font-size:12px">{{$celular}}</div>
