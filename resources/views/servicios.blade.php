@@ -98,19 +98,18 @@
 
         </form>
 
-        <div align="center">   
+        <br>
+        <div class="d-flex justify-content-center">
+        <div align="center" class="btn-toolbar" role="toolbar">
                     <br>
                         <div class="btn-group col-md">
                             <input id="registrar" type="button" value="Registrar" class="btn btn-primary" onclick= "registrarUsuario()" />
-
-                            <input type="button" value="Modificar" class="btn btn-warning" onclick= "modificarUsuario()" />
-
+                            <input type="button" value="Limpiar" class="btn btn-secondary" onclick= "limpiarCampos()" />
                         </div>
                             <br>
 
                         <div class="btn-group col-md">
-                            <input type="button" value="Limpiar" class="btn btn-secondary" onclick= "limpiarCampos()" />
-                            
+                            <input type="button" value="Modificar" class="btn btn-warning" onclick= "modificarUsuario()" />
                             <input type="button" value="Eliminar" class="btn btn-danger" onclick= "eliminarUsuario()" />
                         </div>
                              <script type="text/javascript">
@@ -142,13 +141,14 @@
                                             document.getElementById('nombre').value = "";
                                             document.getElementById('periodicidad').value = "";
                                             document.getElementById('costo').value = "";
+                                            document.getElementById('precio').value = "";
                                             document.getElementById('registrar').disabled = false;
                                         }
 
                             </script>
 
                 </div>
-
+            </div>
         </div>
     </div>
 
@@ -189,7 +189,9 @@
                                                             document.getElementById('id').value = {!!json_encode($registro->Id)!!};
                                                             document.getElementById('nombre').value = {!!json_encode($registro->Nombre)!!};
                                                             document.getElementById('periodicidad').value = {!!json_encode($registro->Periodicidad)!!};
-                                                             document.getElementById('costo').value = {!!json_encode($registro->Costo)!!};
+                                                            document.getElementById('costo').value = {!!json_encode($registro->Costo)!!};
+                                                            document.getElementById('precio').value = {!!json_encode($registro->Precio)!!};
+
 
                                                         };
                                                         var input = document.getElementById({!!json_encode($registro->Id)!!});

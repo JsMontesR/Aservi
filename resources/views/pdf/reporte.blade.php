@@ -37,7 +37,7 @@
                        <tr>
                           @foreach($registro as $key => $value)
                             
-                                  @if($key == "Estado")
+                                  @if($key == "Estado financiero")
                                     @if($value == "Al dia")
                                       <td align="center" style="color:#008f39">{{ $value }}</td>
                                     @else

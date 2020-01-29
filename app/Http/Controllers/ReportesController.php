@@ -99,14 +99,15 @@ class ReportesController extends Controller
                     DB::raw('clientes.nombre AS "Nombre del cliente"'),
                     DB::raw('servicios.nombre AS "Nombre del servicio"'),
                     DB::raw('empresas.nombre AS "Empresa"'),
+                    DB::raw('IF(afiliaciones.activo,"Activo","Inactivo") as "Estado de afiliacion"'),
                     DB::raw('afiliaciones.fechaSiguientePago AS "Fecha límite de pago"'),
                     DB::raw('IF(afiliaciones.fechaSiguientePago IS NULL,
                     "Sin pagos registrados",
                     IF((DATE_FORMAT(afiliaciones.fechaSiguientePago,"%Y-%m-%d 00:00:00") < DATE_FORMAT(NOW(),"%Y-%m-%d 00:00:00")),
-                    CONCAT("En mora por ", DATEDIFF(CURDATE(), afiliaciones.fechaSiguientePago), " días"),"Al dia")) AS Estado'))
+                    CONCAT("En mora por ", DATEDIFF(CURDATE(), afiliaciones.fechaSiguientePago), " días"),"Al dia")) AS "Estado financiero"'))
                 ->join('afiliaciones','afiliaciones.cliente_id','=','clientes.id')
                 ->join('servicios','servicios.id','=','afiliaciones.servicio_id')
-                ->join('empresas','empresas.id','=','afiliaciones.empresa_id')->where('afiliaciones.activo',true);
+                ->join('empresas','empresas.id','=','afiliaciones.empresa_id')->where('afiliaciones.activo',true)->orWhere('afiliaciones.fechaSiguientePago', '<', date("Y-m-d"));
 
             
             return $this->filtrarEmpresa($consulta,$request)->get();
@@ -255,7 +256,7 @@ class ReportesController extends Controller
                 ->join('afiliaciones','afiliaciones.cliente_id','=','clientes.id')
                 ->join('servicios','servicios.id','=','afiliaciones.servicio_id')
                 ->where('afiliaciones.activo',true)
-                ->where('afiliaciones.fechaSiguientePago',"<",date("Y-m-d"));
+                ->orWhere('afiliaciones.fechaSiguientePago',"<",date("Y-m-d"));
 
         return $consulta->get()[0]->Total;
 

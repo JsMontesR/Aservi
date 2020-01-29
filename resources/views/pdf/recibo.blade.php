@@ -71,12 +71,17 @@
   <label> Total: $ {{$valor}} </label>
   <br>
 
+  <label> Recibo valido hasta: {{$fechaValidez}} </label>
+  <br>
+
 </div>
 
 <br>
 
 <div align="center" style="font-size:12px">
-  <label> Gracias por su compra</label>
+  <label>Por favor conservar este tiquete</label>
+  <br>
+  <label>Gracias por su compra</label>
 </div>
 
 

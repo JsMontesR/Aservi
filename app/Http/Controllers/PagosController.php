@@ -35,7 +35,9 @@ class PagosController extends Controller
         DB::raw('IF(pagos.externo = 1,"Si", "No") as "Pago externo"'),
         DB::raw('IF(pagos.externo = 1, 0, servicios.precio) as "Valor pagado"'),
         DB::raw('servicios.precio as "Precio"'),
-        DB::raw('pagos.created_at as "Fecha de pago"'))
+        DB::raw('pagos.created_at as "Fecha de pago"'),
+        DB::raw('pagos.fechaValidez as "Pago valido hasta"')
+    )
        ->join('afiliaciones','afiliaciones.id','=','pagos.afiliacion_id')
        ->join('clientes', 'clientes.id', '=', 'afiliaciones.cliente_id')
        ->join('servicios', 'servicios.id', '=', 'afiliaciones.servicio_id')
@@ -63,7 +65,7 @@ class PagosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $opcion = null)
     {   
 
         $request->validate($this->validationRules);
@@ -75,9 +77,18 @@ class PagosController extends Controller
         $pago->externo = $request->has('externo'); 
         
         $this->calcularProximoPago($pago->afiliacion);
+        $pago->fechaValidez = $pago->afiliacion->fechaSiguientePago;
         $pago->save();
+        if($opcion == null){
+            return back()->with('success', 'Pago registrado'); 
+        }else{
+            $request["id"] = $pago->id;
+            return $request;
+        }
+    }
 
-        return back()->with('success', 'Pago registrado');
+    public function storeAndPrint(Request $request){
+        return $this->print($this->store($request,"storeprint"));
     }
 
     public function calcularProximoPago($afiliacion){
@@ -152,7 +163,7 @@ class PagosController extends Controller
         $nombre = "Asesoría en seguridad social";
         $fijo = "Teléfono: 2190753";
         $celular = "Celular: 310 544 9295";
-        $fechaActual = (new DateTime())->format('d/m/yy');
+        $fechaActual = (new DateTime())->format('d-m-Y');
         $horaActual = (new DateTime())->format('h:i:s');
 
         $pago = Pago::find($request->id);
@@ -167,8 +178,10 @@ class PagosController extends Controller
         $email = $pago->afiliacion->cliente->email;
         $producto = $pago->afiliacion->servicio->nombre;
         $valor = $pago->afiliacion->servicio->precio;
+        $fechaValidez =  $pago->fechaValidez;
 
-        $pdf = \PDF::loadView('pdf.recibo',compact('nombre','fijo','celular','fechaActual','horaActual','numeroRecibo','usuario','tipoPago','cc','nombreCliente','direccion','telefono','email','producto','valor'));
+        
+        $pdf = \PDF::loadView('pdf.recibo',compact('nombre','fijo','celular','fechaActual','horaActual','numeroRecibo','usuario','tipoPago','cc','nombreCliente','direccion','telefono','email','producto','valor','fechaValidez'));
         return $pdf->stream('recibo.pdf');
     }
 }

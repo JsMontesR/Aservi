@@ -230,25 +230,28 @@
                 </div>
         </form>
 
-        <div align="center">
+        <br>
+        <div class="d-flex justify-content-center">
+        <div align="center" class="btn-toolbar" role="toolbar">
                            
             <br>
-            <div class="btn-group col-md">
+            <div class="btn-group mr-2" role="group">
+                
+            <input id="registrarPrint" type="button" value="Registrar e imprimir" class="btn btn-success" onclick= "registrarEImprimir()" />
             <input id="registrar" type="button" value="Registrar" class="btn btn-primary" onclick= "registrarPago()" />
-
-            <input type="button" value="Modificar" class="btn btn-warning" onclick= "modificarPago()" />
 
             </div>
             <br>
-            <div class="btn-group col-md">
-            <input type="button" value="Limpiar" class="btn btn-secondary" onclick= "limpiarCampos()" />
-            
+            <div class="btn-group mr-2" role="group">
+            <input type="button" value="Modificar" class="btn btn-warning" onclick= "modificarPago()" />
             <input type="button" value="Eliminar" class="btn btn-danger" onclick= "eliminarPago()" />
             </div>
 
             <br>
-            <div class="btn-group col-md">           
+            <div class="btn-group mr-2" role="group">       
             <input type="button" value="Ver impresión" class="btn btn-info" onclick= "imprimirPago()" />
+            <input type="button" value="Limpiar" class="btn btn-secondary" onclick= "limpiarCampos()" />
+            
             </div>
              <script type="text/javascript">
                 
@@ -277,6 +280,7 @@
 
                 function limpiarCampos(){
                             document.getElementById('registrar').disabled = false;
+                            document.getElementById('registrarPrint').disabled = false;
                             document.getElementById('id').value = "";
                             document.getElementById('afiliacion_id').value = "";
                             document.getElementById('nombreCliente').value = "";
@@ -291,6 +295,12 @@
                 function imprimirPago(){
 
                     document.form1.action = '{{ route('recibo.pdf') }}';
+                    document.form1.submit();
+                }
+
+                function registrarEImprimir(){
+
+                    document.form1.action = '{{ route('pagos.storeAndPrint') }}';
                     document.form1.submit();
                 }
 
@@ -311,7 +321,7 @@
 
 
         </div>
-
+        </div>
         </div>
     </div>
 
@@ -351,6 +361,7 @@
 
                                             var cambiar = function(){
                                                 document.getElementById('registrar').disabled = true;
+                                                document.getElementById('registrarPrint').disabled = true;
                                                 document.getElementById('id').value = {!!json_encode($registro->Id)!!};
                                                 document.getElementById('nombreCliente').value = {!!json_encode($registro->{'Nombre cliente'})!!};
                                                 document.getElementById('cedula').value = {!!json_encode($registro->Cedula)!!};

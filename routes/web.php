@@ -45,6 +45,7 @@ Route::post('/actualizarAfiliaciones','AfiliacionesController@update')->name('af
 
 Route::get('/pagos','PagosController@index')->name('pagos')->middleware('auth');
 Route::post('/registrarPagos','PagosController@store')->name('pagos.store')->middleware('auth');
+Route::post('/registrarImprimirPago','PagosController@storeAndPrint')->name('pagos.storeAndPrint')->middleware('auth');
 Route::post('/borrarPagos','PagosController@destroy')->name('pagos.delete')->middleware('auth');
 Route::post('/actualizarPagos','PagosController@update')->name('pagos.update')->middleware('auth');
 

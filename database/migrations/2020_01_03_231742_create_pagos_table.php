@@ -17,6 +17,7 @@ class CreatePagosTable extends Migration
             $table->bigIncrements('id');
             $table->string('tipoPago');
             $table->boolean('externo')->default(false);
+            $table->date('fechaValidez');
             $table->timestamps();
         });
     }

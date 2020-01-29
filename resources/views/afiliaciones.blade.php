@@ -252,19 +252,19 @@
                             </div>
                         </div>
         </form>
-
-        <div align="center">
+        <br>
+        <div class="d-flex justify-content-center">
+        <div align="center" class="btn-toolbar" role="toolbar">
                            
             <br>
             <div class="btn-group col-md">
             <input id="registrar" type="button" value="Registrar" class="btn btn-primary" onclick= "registrarAfiliacion()" />
-
-            <input type="button" value="Modificar" class="btn btn-warning" onclick= "modificarAfiliacion()" />
-
+            <input type="button" value="Limpiar" class="btn btn-secondary" onclick= "limpiarCampos()" />
             </div>
             <br>
             <div class="btn-group col-md">
-            <input type="button" value="Limpiar" class="btn btn-secondary" onclick= "limpiarCampos()" />
+        <input type="button" value="Modificar" class="btn btn-warning" onclick= "modificarAfiliacion()" />
+            
             
             <input type="button" value="Eliminar" class="btn btn-danger" onclick= "eliminarAfiliacion()" />
             </div>
@@ -306,7 +306,7 @@
 
 
         </div>
-
+        </div>
         </div>
     </div>
 
