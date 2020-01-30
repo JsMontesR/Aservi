@@ -49,7 +49,8 @@ class AfiliacionesController extends Controller
 
         $servicios = DB::table('servicios')->select(
             DB::raw('id as Id'),
-            DB::raw('nombre as "Nombre del servicio"'))->get();
+            DB::raw('nombre as "Nombre del servicio"'),
+            DB::raw('precio as "Precio"'))->get();
 
         $empresas = DB::table('empresas')->select(
             DB::raw('id as Id'),
