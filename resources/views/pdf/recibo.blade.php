@@ -73,7 +73,7 @@
   <label> Total: $ {{$valor}} </label>
   <br>
 
-  <label> Recibo valido hasta: {{$fechaValidez}} </label>
+  <label> Recibo válido hasta: {{$fechaValidez}} </label>
   <br>
 
 </div>
