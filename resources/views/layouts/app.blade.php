@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
+
 <head>
 
   <meta charset="utf-8">
@@ -20,6 +22,7 @@
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
   <link rel="icon" href="{{ asset('/favicon.png') }}" type="image/x-icon"/>
+
 
 </head>
 

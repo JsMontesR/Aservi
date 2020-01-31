@@ -50,7 +50,7 @@
                 <div class="card mb-3">     
                   <div class="card-body">
                     <div class="table-responsive">
-                      <table class="table table-bordered" data-name="my_table" width="100%" cellspacing="0">
+                      <table class="table table-bordered" data-name="my_table" width="100%" cellspacing="0" data-page-length='5'>
                         @if(!$afiliaciones->isEmpty())
                                 <thead>
                                   <tr>
@@ -333,7 +333,7 @@
               <div class="table-responsive">
                       @if(!$pagos->isEmpty())
 
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" data-name="my_table">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" data-name="my_table" data-page-length='5'>
                         
                                 <thead>
                                   <tr>
