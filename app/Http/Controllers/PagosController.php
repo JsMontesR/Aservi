@@ -100,18 +100,20 @@ class PagosController extends Controller
             $fecha = (new DateTime())->format('Y-m-d H:i:s');
         }
 
+        $fecha = (new DateTime())->setDate(date("Y",strtotime($fecha)), date("m",strtotime($fecha)), $diasPlazoPago);
+
         $periodicidad = $afiliacion->servicio->periodicidad;
         if($periodicidad === "Mensual"){
-            $nuevaFechaProximoPago = date("Y-m-d H:i:s",strtotime($fecha."+ 1 month"));
+            $nuevaFechaProximoPago = date("Y-m-d H:i:s",strtotime($fecha->format('Y-m-d')."+ 1 month"));
         }
         elseif($periodicidad === "Trimestral"){
-            $nuevaFechaProximoPago = date("Y-m-d H:i:s",strtotime($fecha."+ 3 month"));
+            $nuevaFechaProximoPago = date("Y-m-d H:i:s",strtotime($fecha->format('Y-m-d')."+ 3 month"));
         }
         elseif($periodicidad === "Semestral"){
-            $nuevaFechaProximoPago = date("Y-m-d H:i:s",strtotime($fecha."+ 6 month"));
+            $nuevaFechaProximoPago = date("Y-m-d H:i:s",strtotime($fecha->format('Y-m-d')."+ 6 month"));
         }
         elseif($periodicidad === "Anual"){
-            $nuevaFechaProximoPago = date("Y-m-d H:i:s",strtotime($fecha."+ 12 month"));
+            $nuevaFechaProximoPago = date("Y-m-d H:i:s",strtotime($fecha->format('Y-m-d')."+ 12 month"));
         }
 
         $afiliacion->fechaSiguientePago = (new DateTime())->setDate(date("Y",strtotime($nuevaFechaProximoPago)), date("m",strtotime($nuevaFechaProximoPago)), $diasPlazoPago);

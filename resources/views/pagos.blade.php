@@ -339,7 +339,7 @@
                                   <tr>
                                     <th>Seleccionar</th>
                                     @foreach ($pagos->get(0) as $key => $value) 
-                                        @if($key != 'Id afiliacion' && $key != 'Precio')
+                                        @if($key != 'Precio')
                                         <th>{{$key}}</th>
                                         @endif
                                         
@@ -388,7 +388,7 @@
                                         </script>
                                         @foreach ($registro as $key => $value) 
                                             
-                                        @if($key != 'Id afiliacion' && $key != 'Precio')
+                                        @if($key != 'Precio')
                                         <td>{{$value}}</td>
                                         @endif
                                             
@@ -404,7 +404,7 @@
                                     <th>Seleccionar</th>
                                     @foreach ($pagos[0] as $key => $value) 
                                         
-                                        @if($key != 'Id afiliacion' && $key != 'Precio')
+                                        @if($key != 'Precio')
                                         <th>{{$key}}</th>
                                         @endif
                                         
