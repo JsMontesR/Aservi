@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+
 @section('content')
     <div class="card-header py-3">
         <h1 align="center" class="m-0 font-weight-bold text-primary">Afiliaciones</h6>
